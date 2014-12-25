@@ -3,6 +3,7 @@
 namespace Chollosoft\RiescoBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -49,47 +50,34 @@ class CarroController extends Controller
     {
     	if($this->getRequest()->isXmlHttpRequest()){
     		
+    		$data = $this->get('request')->request->all();
     		// Crear la session
     		$session = $this->get('session');
     		$session->start();
-    		
+    		$em = $this->getDoctrine()->getManager();
     		$entity = new Carro();
     		$entity->setUsuarioSession($session->getId());
-    		$entity->setIdProducto("s");
-    		   		
-    		$form = $this->createCreateForm($entity);
-    		$form->handleRequest($request);
+    		$entity->setIdProducto($em->getRepository('CarniceriaBundle:Producto')->findOneById(2));
+    		$entity->setPrecioProducto(232);
+    		$entity->setCantidad(1);
+    		//$serializedEntity = $this->container->get('serializer')->serialize($data, 'json');
+    		//return new Response($data["cantidad"]);
+    		//$form = $this->createCreateForm($entity);
+    		//$form->handleRequest($request);
     		
-    		if ($form->isValid()) {
-    			$em = $this->getDoctrine()->getManager();
+    	
+    			
     			$em->persist($entity);
     			$em->flush();
     		
-    			return $this->redirect($this->generateUrl('carro_show', array('id' => $entity->getId())));
-    		}
+    			return new Response("Exito");
+    			//return $this->redirect($this->generateUrl('carro_show', array('id' => $entity->getId())));
     		
-    		return array(
-    				'entity' => $entity,
-    				'form'   => $form->createView(),
-    		);
+    		
+    		return new Response("Fallo");
     	}
-    	
-        $entity = new Carro();
-        $form = $this->createCreateForm($entity);
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('carro_show', array('id' => $entity->getId())));
-        }
-
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        );
+    	return new Response("Fallo2");
+  
     }
 
     /**

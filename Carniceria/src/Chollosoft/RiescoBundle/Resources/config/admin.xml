@@ -1,26 +1,48 @@
 <!-- Acme/DemoBundle/Resources/config/admin.xml -->
 <container xmlns="http://symfony.com/schema/dic/services"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://symfony.com/schema/dic/services/services-1.0.xsd">
-    <services>
-       <service id="sonata.admin.categoria" class="Chollosoft\RiescoBundle\Admin\CategoriaAdmin">
-          <tag name="sonata.admin" manager_type="orm" group="Contenidos" label="Categoria"/>
-          <argument />
-          <argument>Chollosoft\RiescoBundle\Entity\Categoria</argument>
-          <argument />
-          <call method="setTranslationDomain">
-              <argument>CarniceriaBundle</argument>
-          </call>
-      </service>
-             <service id="sonata.admin.producto" class="Chollosoft\RiescoBundle\Admin\ProductoAdmin">
-          <tag name="sonata.admin" manager_type="orm" group="Contenidos" label="Producto"/>
-          <argument />
-          <argument>Chollosoft\RiescoBundle\Entity\Producto</argument>
-          <argument />
-          <call method="setTranslationDomain">
-              <argument>CarniceriaBundle</argument>
-          </call>
-      </service>
-   </services>
-   
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://symfony.com/schema/dic/services/services-1.0.xsd">
+	<services>
+		<service id="sonata.admin.categoria" class="Chollosoft\RiescoBundle\Admin\CategoriaAdmin">
+			<tag name="sonata.admin" manager_type="orm" group="Contenidos"
+				label="Categoria" />
+			<argument />
+			<argument>Chollosoft\RiescoBundle\Entity\Categoria</argument>
+			<argument />
+			<call method="setTranslationDomain">
+				<argument>CarniceriaBundle</argument>
+			</call>
+		</service>
+		<service id="sonata.admin.producto" class="Chollosoft\RiescoBundle\Admin\ProductoAdmin">
+			<tag name="sonata.admin" manager_type="orm" group="Contenidos"
+				label="Producto" />
+			<argument />
+			<argument>Chollosoft\RiescoBundle\Entity\Producto</argument>
+			<argument />
+			<call method="setTranslationDomain">
+				<argument>CarniceriaBundle</argument>
+			</call>
+		</service>
+		<service id="sonata.admin.carro" class="Chollosoft\RiescoBundle\Admin\CarroAdmin">
+			<tag name="sonata.admin" manager_type="orm" group="Contenidos"
+				label="Carros compra" />
+			<argument />
+			<argument>Chollosoft\RiescoBundle\Entity\Carro</argument>
+			<argument />
+			<call method="setTranslationDomain">
+				<argument>CarniceriaBundle</argument>
+			</call>
+		</service>
+		<service id="sonata.admin.compra" class="Chollosoft\RiescoBundle\Admin\CompraAdmin">
+			<tag name="sonata.admin" manager_type="orm" group="Contenidos"
+				label="Compras" />
+			<argument />
+			<argument>Chollosoft\RiescoBundle\Entity\Compra</argument>
+			<argument />
+			<call method="setTranslationDomain">
+				<argument>CarniceriaBundle</argument>
+			</call>
+		</service>
+	</services>
+
 </container>

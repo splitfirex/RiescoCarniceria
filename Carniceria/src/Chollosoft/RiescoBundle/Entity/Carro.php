@@ -23,7 +23,7 @@ class Carro
 
     /**
      * @var string
-     *
+     * 
      * @ORM\Column(name="usuarioSession", type="string", length=255, nullable=false)
      */
     private $usuarioSession;
@@ -149,5 +149,13 @@ class Carro
     public function getCantidad()
     {
         return $this->cantidad;
+    }
+    
+    public function __toString(){
+    	
+    	if($this->getIdProducto()!= null){
+    		return $this->getIdProducto()->getNombre(); 
+    	}
+    	return "sin producto";
     }
 }

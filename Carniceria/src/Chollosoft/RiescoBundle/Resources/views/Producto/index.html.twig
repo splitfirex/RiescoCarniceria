@@ -1,7 +1,6 @@
-{% extends 'CarniceriaBundle::layout.html.twig' %}
-
-{% block javascript %}
-    <script type="text/javascript">
+{% extends 'CarniceriaBundle::layout.html.twig' %} {% block javascript
+%}
+<script type="text/javascript">
     $(function(){
       $("#shopping_cart_button").on("click",function(){
 
@@ -35,134 +34,183 @@
           }
         });
 
-	
+
+      $('.addCart').on("click", function(){
+
+    	  // Calculo de parametros
+
+          $.post("{{ url('carro_create') }}",{ idProducto: '2', cantidad: '1' }, function( data ) {
+        	  alert( data );
+          });
+    	  
+      });
+      
+
 
 
       
       });
     </script>
-{% endblock %}
-
-{% block body -%}
+{% endblock %} {% block body -%}
 <section class="content">
-  <div class="container">
+	<div class="container">
 
 
 
-    <div class="row">
+		<div class="row">
 
 
-      <div class="grid_4 preffix_1" style="width:200px">
-        <h2>Categorias</h2>
-        <ul class="list">
-          <li><a href="#">Carne</a></li>
-          <li><a href="#">Pollo</a></li>
-          <li><a href="#">Pescado</a></li>
-          <li><a href="#">Cerdo</a></li>
-          <li><a href="#">Gourmet</a></li>
-          <li><a href="#"><b>TODAS</b></a></li>
+			<div class="grid_4 preffix_1" style="width: 200px">
+				<h2>Categorias</h2>
+				<ul class="list">
+					<li><a href="#">Carne</a></li>
+					<li><a href="#">Pollo</a></li>
+					<li><a href="#">Pescado</a></li>
+					<li><a href="#">Cerdo</a></li>
+					<li><a href="#">Gourmet</a></li>
+					<li><a href="#"><b>TODAS</b></a></li>
 
-        </ul>
-      </div>
-      <div class="grid_7" id="category">
-        <div class="blog">
-          <div class="blog_title"><a href="#">Productos > Categoria:CATT </a></div>
-          <p>Nullam consectetur orci sed nulla facilisisequaterto. Curabitur vel lorem sit amet nulla perermentum. Aliquam nibh ante, egestas id dictum a, commodo luctus libero. Raesent faucibus malesuada faucibus. Donecertolin laoreet metus id laoreet malesuadarem ipsum dolor sit amet, consectetur adipiscing elit. Nullam consectetur orci sed nulla facilisis consequat. </p>
-          <table>
-          <tbody>
-            <tr>
-             <td><img alt="" src="http://dummyimage.com/100x100/000/fff" style="margin-bottom:0px"></td>
-              <td>Redondo con Especias</td>
-              <td><div class="fa fa-eye"></div>Disponible : 20 Kg <input class="spinner" name="value"></td>
-               <td><a href="#"><span class="fa fa-link"></span> Agregar Al carro</a></td>
-            </tr>            
-          </tbody>
-        </table>
-        </div>
-      </div>
-      <div class="grid_7" style="background-color:#969696; display:none" id="shopping_cart">
-        <div class="blog">
-          <div class="blog_title"><a href="#">Productos del carro</a></div>
-          <p>Nullam consectetur orci sed nulla facilisisequaterto. Curabitur vel lorem sit amet nulla perermentum. Aliquam nibh ante, egestas id dictum a, commodo luctus libero. Raesent faucibus malesuada faucibus. Donecertolin laoreet metus id laoreet malesuadarem ipsum dolor sit amet, consectetur adipiscing elit. Nullam consectetur orci sed nulla facilisis consequat. </p>
-          <table>
-          <tbody>
-            <tr>
-              <td><div class="fa fa-comments"></div> No commentts   </td>
-              <td><div class="fa fa-eye"></div>182
-              <div class="fa fa-thumbs-up"></div>0
-              <div class="fa fa-thumbs-down"></div>0</td>
-               <td><a href="#"><span class="fa fa-link"></span> Agregar Al carro</a></td>
-            </tr>            <tr>
-              <td><div class="fa fa-comments"></div> No commentts   </td>
-              <td><div class="fa fa-eye"></div>182
-              <div class="fa fa-thumbs-up"></div>0
-              <div class="fa fa-thumbs-down"></div>0</td>
-               <td><a href="#"><span class="fa fa-link"></span> Agregar Al carro</a></td>
-            </tr>            <tr>
-              <td><div class="fa fa-comments"></div> No commentts   </td>
-              <td><div class="fa fa-eye"></div>182
-              <div class="fa fa-thumbs-up"></div>0
-              <div class="fa fa-thumbs-down"></div>0</td>
-               <td><a href="#"><span class="fa fa-link"></span> Agregar Al carro</a></td>
-            </tr>            <tr>
-              <td><div class="fa fa-comments"></div> No commentts   </td>
-              <td><div class="fa fa-eye"></div>182
-              <div class="fa fa-thumbs-up"></div>0
-              <div class="fa fa-thumbs-down"></div>0</td>
-               <td><a href="#"><span class="fa fa-link"></span> Agregar Al carro</a></td>
-            </tr>            <tr>
-              <td><div class="fa fa-comments"></div> No commentts   </td>
-              <td><div class="fa fa-eye"></div>182
-              <div class="fa fa-thumbs-up"></div>0
-              <div class="fa fa-thumbs-down"></div>0</td>
-               <td><a href="#"><span class="fa fa-link"></span> Agregar Al carro</a></td>
-            </tr>            <tr>
-              <td><div class="fa fa-comments"></div> No commentts   </td>
-              <td><div class="fa fa-eye"></div>182
-              <div class="fa fa-thumbs-up"></div>0
-              <div class="fa fa-thumbs-down"></div>0</td>
-               <td><a href="#"><span class="fa fa-link"></span> Agregar Al carro</a></td>
-            </tr>            <tr>
-              <td><div class="fa fa-comments"></div> No commentts   </td>
-              <td><div class="fa fa-eye"></div>182
-              <div class="fa fa-thumbs-up"></div>0
-              <div class="fa fa-thumbs-down"></div>0</td>
-               <td><a href="#"><span class="fa fa-link"></span> Agregar Al carro</a></td>
-            </tr>            <tr>
-              <td><div class="fa fa-comments"></div> No commentts   </td>
-              <td><div class="fa fa-eye"></div>182
-              <div class="fa fa-thumbs-up"></div>0
-              <div class="fa fa-thumbs-down"></div>0</td>
-               <td><a href="#"><span class="fa fa-link"></span> Agregar Al carro</a></td>
-            </tr>            <tr>
-              <td><div class="fa fa-comments"></div> No commentts   </td>
-              <td><div class="fa fa-eye"></div>182
-              <div class="fa fa-thumbs-up"></div>0
-              <div class="fa fa-thumbs-down"></div>0</td>
-               <td><a href="#"><span class="fa fa-link"></span> Agregar Al carro</a></td>
-            </tr>            <tr>
-              <td><div class="fa fa-comments"></div> No commentts   </td>
-              <td><div class="fa fa-eye"></div>182
-              <div class="fa fa-thumbs-up"></div>0
-              <div class="fa fa-thumbs-down"></div>0</td>
-               <td><a href="#"><span class="fa fa-link"></span> Agregar Al carro</a></td>
-            </tr>            <tr>
-              <td><div class="fa fa-comments"></div> No commentts   </td>
-              <td><div class="fa fa-eye"></div>182
-              <div class="fa fa-thumbs-up"></div>0
-              <div class="fa fa-thumbs-down"></div>0</td>
-               <td><a href="#"><span class="fa fa-link"></span> Agregar Al carro</a></td>
-            </tr>
-          </tbody>
-        </table>
-        </div>
-      </div>
-          <div id="shopping_cart_button" style="width:100px; height:100px; margin-top:60px;  float: right;  z-index:999; overflow: auto; display:block; background-image: url('{{ asset('bundles/carniceria/images/cart.png') }}') ; background-size: 100px 100px;  background-repeat: no-repeat; cursor:pointer;" data-estado="productos" >
-  </div>
-    </div>
-  </div>
+				</ul>
+			</div>
+			<div class="grid_7" id="category">
+				<div class="blog">
+					<div class="blog_title">
+						<a href="#">Productos > Categoria:CATT </a>
+					</div>
+					<p>Nullam consectetur orci sed nulla facilisisequaterto. Curabitur
+						vel lorem sit amet nulla perermentum. Aliquam nibh ante, egestas
+						id dictum a, commodo luctus libero. Raesent faucibus malesuada
+						faucibus. Donecertolin laoreet metus id laoreet malesuadarem ipsum
+						dolor sit amet, consectetur adipiscing elit. Nullam consectetur
+						orci sed nulla facilisis consequat.</p>
+					<table>
+						<tbody>
+							<tr>
+								<td><img alt="" src="http://dummyimage.com/100x100/000/fff"
+									style="margin-bottom: 0px"></td>
+								<td>Redondo con Especias</td>
+								<td><div class="fa fa-eye"></div>Disponible : 20 Kg <input
+									class="spinner" name="value"></td>
+								<td><a href="#" class="addCart"><span class="fa fa-link"></span>
+										Agregar Al carro</a></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="grid_7" style="background-color: #969696; display: none"
+				id="shopping_cart">
+				<div class="blog">
+					<div class="blog_title">
+						<a href="#">Productos del carro</a>
+					</div>
+					<p>Nullam consectetur orci sed nulla facilisisequaterto. Curabitur
+						vel lorem sit amet nulla perermentum. Aliquam nibh ante, egestas
+						id dictum a, commodo luctus libero. Raesent faucibus malesuada
+						faucibus. Donecertolin laoreet metus id laoreet malesuadarem ipsum
+						dolor sit amet, consectetur adipiscing elit. Nullam consectetur
+						orci sed nulla facilisis consequat.</p>
+					<table>
+						<tbody>
+							<tr>
+								<td><div class="fa fa-comments"></div> No commentts</td>
+								<td><div class="fa fa-eye"></div>182
+									<div class="fa fa-thumbs-up"></div>0
+									<div class="fa fa-thumbs-down"></div>0</td>
+								<td><a href="#"><span class="fa fa-link"></span> Agregar Al
+										carro</a></td>
+							</tr>
+							<tr>
+								<td><div class="fa fa-comments"></div> No commentts</td>
+								<td><div class="fa fa-eye"></div>182
+									<div class="fa fa-thumbs-up"></div>0
+									<div class="fa fa-thumbs-down"></div>0</td>
+								<td><a href="#"><span class="fa fa-link"></span> Agregar Al
+										carro</a></td>
+							</tr>
+							<tr>
+								<td><div class="fa fa-comments"></div> No commentts</td>
+								<td><div class="fa fa-eye"></div>182
+									<div class="fa fa-thumbs-up"></div>0
+									<div class="fa fa-thumbs-down"></div>0</td>
+								<td><a href="#"><span class="fa fa-link"></span> Agregar Al
+										carro</a></td>
+							</tr>
+							<tr>
+								<td><div class="fa fa-comments"></div> No commentts</td>
+								<td><div class="fa fa-eye"></div>182
+									<div class="fa fa-thumbs-up"></div>0
+									<div class="fa fa-thumbs-down"></div>0</td>
+								<td><a href="#"><span class="fa fa-link"></span> Agregar Al
+										carro</a></td>
+							</tr>
+							<tr>
+								<td><div class="fa fa-comments"></div> No commentts</td>
+								<td><div class="fa fa-eye"></div>182
+									<div class="fa fa-thumbs-up"></div>0
+									<div class="fa fa-thumbs-down"></div>0</td>
+								<td><a href="#"><span class="fa fa-link"></span> Agregar Al
+										carro</a></td>
+							</tr>
+							<tr>
+								<td><div class="fa fa-comments"></div> No commentts</td>
+								<td><div class="fa fa-eye"></div>182
+									<div class="fa fa-thumbs-up"></div>0
+									<div class="fa fa-thumbs-down"></div>0</td>
+								<td><a href="#"><span class="fa fa-link"></span> Agregar Al
+										carro</a></td>
+							</tr>
+							<tr>
+								<td><div class="fa fa-comments"></div> No commentts</td>
+								<td><div class="fa fa-eye"></div>182
+									<div class="fa fa-thumbs-up"></div>0
+									<div class="fa fa-thumbs-down"></div>0</td>
+								<td><a href="#"><span class="fa fa-link"></span> Agregar Al
+										carro</a></td>
+							</tr>
+							<tr>
+								<td><div class="fa fa-comments"></div> No commentts</td>
+								<td><div class="fa fa-eye"></div>182
+									<div class="fa fa-thumbs-up"></div>0
+									<div class="fa fa-thumbs-down"></div>0</td>
+								<td><a href="#"><span class="fa fa-link"></span> Agregar Al
+										carro</a></td>
+							</tr>
+							<tr>
+								<td><div class="fa fa-comments"></div> No commentts</td>
+								<td><div class="fa fa-eye"></div>182
+									<div class="fa fa-thumbs-up"></div>0
+									<div class="fa fa-thumbs-down"></div>0</td>
+								<td><a href="#"><span class="fa fa-link"></span> Agregar Al
+										carro</a></td>
+							</tr>
+							<tr>
+								<td><div class="fa fa-comments"></div> No commentts</td>
+								<td><div class="fa fa-eye"></div>182
+									<div class="fa fa-thumbs-up"></div>0
+									<div class="fa fa-thumbs-down"></div>0</td>
+								<td><a href="#"><span class="fa fa-link"></span> Agregar Al
+										carro</a></td>
+							</tr>
+							<tr>
+								<td><div class="fa fa-comments"></div> No commentts</td>
+								<td><div class="fa fa-eye"></div>182
+									<div class="fa fa-thumbs-up"></div>0
+									<div class="fa fa-thumbs-down"></div>0</td>
+								<td><a href="#"><span class="fa fa-link"></span> Agregar Al
+										carro</a></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div id="shopping_cart_button"
+				style="width:100px; height:100px; margin-top:60px;  float: right;  z-index:999; overflow: auto; display:block; background-image: url('{{ asset('bundles/carniceria/images/cart.png') }}') ; background-size: 100px 100px;  background-repeat: no-repeat; cursor:pointer;"
+				data-estado="productos"></div>
+		</div>
+	</div>
 </section>
 
- 
 
-    {% endblock %}
+
+{% endblock %}

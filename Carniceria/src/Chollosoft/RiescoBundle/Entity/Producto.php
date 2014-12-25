@@ -347,7 +347,7 @@ class Producto
 		// sanitize it at least to avoid any security issues
 		
 		// move takes the target directory and target filename as params
-		$this->getFile ()->move ( $_SERVER['DOCUMENT_ROOT'].'/uploads/', $this->getFile()->getClientOriginalName() );
+		$this->getFile ()->move ( $_SERVER['DOCUMENT_ROOT'].'/web/uploads/', $this->getFile()->getClientOriginalName() );
 		
 		// set the path property to the filename where you've saved the file
 		$this->setFilename ( $this->getFile()->getClientOriginalName() );
@@ -383,6 +383,11 @@ class Producto
 		//if ($file = $this->getAbsolutePath()) {
 		//	unlink($file);
 		//}
+	}
+	
+	public function __toString(){
+		return $this->nombre;	
+	
 	}
     
 }

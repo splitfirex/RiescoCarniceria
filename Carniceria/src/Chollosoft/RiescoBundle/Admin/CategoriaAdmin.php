@@ -14,10 +14,16 @@ class CategoriaAdmin extends Admin
 	// Fields to be shown on create/edit forms
 	protected function configureFormFields(FormMapper $formMapper)
 	{
+		
+		// get the current Image instance
+		
+		
 		$formMapper
 		->add('nombre', 'text', array('label' => 'Nombre Categoria'))
 		->add('descripcion', 'text', array('label' => 'Descripcion'))
-		->add('file', 'file', array('required' => false))
+		->add('file', 'file', $fileFieldOptions)
+		->add('categorias', 'sonata_type_model', array('required' => false, 'expanded' => false, 'multiple' => true, 'label' => 'Categorias'))
+		
 		//->add('author', 'entity', array('class' => 'Acme\DemoBundle\Entity\User'))
 		//->add('body') //if no type is specified, SonataAdminBundle tries to guess it
 		;
