@@ -1,0 +1,29 @@
+{% extends 'SonataBlockBundle:Block:block_base.html.twig' %}
+
+{% block block %}
+
+<div class="sonata-order-block-recent-order panel panel-default">
+	<div class="panel-heading">
+	<h3 class="panel-title sonata-order-block-recent-order"><i class="fa fa-barcode"></i> Alertas de Stock</h3>
+	</div>
+
+
+	<div class="panel-body">
+
+		<table class="sonata-order-block-order-container table table-condensed">
+			<tbody><tr>
+				<td><a href="http://demo.sonata-project.org/admin/sonata/order/order/201/edit">Pollo</a></td>
+				<td class="number">Stock Actual : 11</td>
+				<td><span class="label label-danger">Sotck Bajo</span></td>
+				<td class="number">Stock Minimo : 11</td>
+			</tr>
+			<tr>
+				<td><a href="http://demo.sonata-project.org/admin/sonata/order/order/201/edit">Carne de Cerdo</a></td>
+				<td class="number">Stock Actual : 12</td>
+				<td><span class="label label-danger">Sotck Bajo</span></td>
+				<td class="number">Stock Minimo : 20</td>
+			</tr>
+		</tbody></table>
+	</div>
+</div>
+{% endblock %}
