@@ -2,6 +2,39 @@
 
 {% block field %}
     <div>
-        <strong>{{ object.nombre }}</strong>
+    	
+<table style="width:300px; border:'1px' ">
+	<thead>
+	<tr>
+		<td>
+			Producto
+		</td>
+
+		<td>
+			Precio
+		</td>
+
+		<td>
+			Cantidad
+		</td>
+	</tr>
+	</thead>
+	<tbody>
+	 <tr>
+    	 {% for productoCarro in object.carros %}
+    	
+    	 <td>
+        {{ productoCarro.idProducto.nombre  }}
+        </td>
+        <td>
+        {{ productoCarro.precioProducto  }}€
+        </td>
+        <td>
+        {{ productoCarro.cantidad }} {{ productoCarro.idProducto.unidadDeCompra }}
+        </td>
+    	{% endfor %}
+    </tr>
+    </tbody>
+</table>
     </div>
 {% endblock %}

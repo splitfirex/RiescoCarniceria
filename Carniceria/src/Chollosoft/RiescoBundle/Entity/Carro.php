@@ -12,7 +12,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Carro
 {
-    /**
+
+   /**
      * @var integer
      *
      * @ORM\Column(name="id", type="integer")
@@ -30,13 +31,14 @@ class Carro
 
     /**
      * @var integer
+     * 
      * @ORM\OneToOne(targetEntity="Producto")
      */
     private $idProducto;
 
     /**
      * @var integer
-     *
+     * 
      * @ORM\Column(name="precioProducto", type="decimal", nullable=false)
      */
     private $precioProducto;
@@ -154,7 +156,7 @@ class Carro
     public function __toString(){
     	
     	if($this->getIdProducto()!= null){
-    		return $this->getIdProducto()->getNombre(); 
+    		return $this->getIdProducto()->getNombre() . " ". $this->getPrecioProducto(); ; 
     	}
     	return "sin producto";
     }

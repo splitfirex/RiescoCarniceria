@@ -31,6 +31,14 @@ class Producto
      */
     private $nombre;
 
+
+     /**
+     * @var string
+     *
+     * @ORM\Column(name="unidadDeCompra", type="string", length=255, unique=true)
+     */
+    private $unidadDeCompra;
+
     /**
      * @var decimal
      *
@@ -101,6 +109,30 @@ class Producto
     public function setNombre($nombre)
     {
         $this->nombre = $nombre;
+
+        return $this;
+    }
+
+    /**
+     * Get nombre
+     *
+     * @return string 
+     */
+    public function getUnidadDeCompra()
+    {
+        return $this->unidadDeCompra;
+    }
+
+
+     /**
+     * Set nombre
+     *
+     * @param string $nombre
+     * @return Producto
+     */
+    public function setUnidadDeCompra($unicompra)
+    {
+        $this->unidadDeCompra = $unicompra;
 
         return $this;
     }

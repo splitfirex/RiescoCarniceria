@@ -21,10 +21,11 @@ class CompraAdmin extends Admin
 		->add('usuarioSession')
 		->add('fechaCompra')
 		->add('total')
-		->add('nombreCliente')
+		->add('telefono')
+		->add('cliente')
 		->add('direccion')
-		->add('estado')
-		->add('idCarro', 'sonata_type_model', array('required' => false, 'expanded' => false, 'multiple' => true, 'label' => 'Productos'))
+		->add('estado', 'choice', array('choices' => array('Revisado' => 'Revisado', 'Entregado' => 'Entregado','PorRevisar' => 'PorRevisar','Cancelado' => 'Cancelado')))
+		->add('carros', 'sonata_type_model', array('required' => false, 'expanded' => false, 'multiple' => true, 'label' => 'Productos'))
 		
 		
 		//->add('categorias', 'entity', array('label' => 'Categorias','class' => 'Chollosoft\RiescoBundle\Entity\Categoria'))
@@ -40,10 +41,12 @@ class CompraAdmin extends Admin
 		->add('usuarioSession')
 		->add('fechaCompra')
 		->add('total')
-		->add('nombreCliente')
+		->add('telefono')
+		->add('cliente')
 		->add('direccion')
-		->add('estado')
-		->add('idCarro')
+		->add('estado', 'doctrine_orm_choice', array('choices' => array('Revisado' => 'Revisado', 'Entregado' => 'Entregado','PorRevisar' => 'PorRevisar','Cancelado' => 'Cancelado')))
+
+		//->add('idCarro')
 		
 		;
 	}
@@ -54,11 +57,14 @@ class CompraAdmin extends Admin
 		$listMapper
 		->addIdentifier('usuarioSession')
 		->add('fechaCompra')
-		->add('total')
-		->add('nombreCliente')
+		->add('total', 'currency', array('currency' => '€'))
+		->add('cliente')
 		->add('direccion')
-		->add('estado')
-		->add('idCarro')
+		->add('telefono')
+		->add('estado', 'string', array('template' => 'CarniceriaBundle:Partials:estado_partial.html.twig'))
+		->add('Productos', 'sonata_type_model',array('template' => 'CarniceriaBundle:Partials:list_partial.html.twig'))
+
+		//->add('idCarro')
 		
 		
 		;

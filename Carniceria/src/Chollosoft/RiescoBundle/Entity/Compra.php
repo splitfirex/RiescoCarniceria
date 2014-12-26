@@ -12,47 +12,49 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Compra
 {
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
 
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(name="fechaCompra", type="datetime")
+     * @ORM\Column(name="fechaCompra", type="datetime", nullable=false)
      */
     private $fechaCompra;
 
     /**
      * @var string
      *
+     * @ORM\Id
      * @ORM\Column(name="usuarioSession", type="string", length=255, nullable=false)
+     * 
      */
     private $usuarioSession;
 
     /**
      * @var \stdClass
      *
+     * 
      * @ORM\ManyToMany(targetEntity="Carro")
-     * @ORM\JoinTable(name="Carro_Compra",
-     *      joinColumns={@ORM\JoinColumn(name="usuarioSession", referencedColumnName="usuarioSession")},
+     * @ORM\JoinTable(name="carro_compra",
+     *      joinColumns={@ORM\JoinColumn(name="compra_id", referencedColumnName="usuarioSession")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="carro_id", referencedColumnName="id", unique=true)}
      *      )
      * 
      */
-    private $idCarro;
+    private $carros;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="nombreCliente", type="string", length=255, nullable=false)
+     * @ORM\Column(name="cliente", type="string", length=255, nullable=false)
      */
-    private $nombreCliente;
+    private $cliente;
+
+
+     /**
+     * @var string
+     *
+     * @ORM\Column(name="telefono", type="string", length=255, nullable=false)
+     */
+    private $telefono;
 
     /**
      * @var string
@@ -62,9 +64,9 @@ class Compra
     private $direccion;
 
     /**
-     * @var integer
+     * @var decimal
      *
-     * @ORM\Column(name="total", type="integer", nullable=false)
+     * @ORM\Column(name="total", type="decimal", nullable=false)
      */
     private $total;
 
@@ -85,6 +87,7 @@ class Compra
     {
         return $this->id;
     }
+
 
     /**
      * Set fechaCompra
@@ -132,15 +135,39 @@ class Compra
         return $this->usuarioSession;
     }
 
+
+     /**
+     * Set usuarioSession
+     *
+     * @param string $usuarioSession
+     * @return Compra
+     */
+    public function setTelefono($usuarioSession)
+    {
+        $this->telefono = $usuarioSession;
+
+        return $this;
+    }
+
+    /**
+     * Get usuarioSession
+     *
+     * @return string 
+     */
+    public function getTelefono()
+    {
+        return $this->telefono;
+    }
+
     /**
      * Set idCarro
      *
      * @param \stdClass $idCarro
      * @return Compra
      */
-    public function setIdCarro($idCarro)
+    public function setCarros($idCarro)
     {
-        $this->idCarro = $idCarro;
+        $this->carros = $idCarro;
 
         return $this;
     }
@@ -150,9 +177,9 @@ class Compra
      *
      * @return \stdClass 
      */
-    public function getIdCarro()
+    public function getCarros()
     {
-        return $this->idCarro;
+        return $this->carros;
     }
 
     /**
@@ -161,9 +188,9 @@ class Compra
      * @param string $nombreCliente
      * @return Compra
      */
-    public function setNombreCliente($nombreCliente)
+    public function setCliente($nombreCliente)
     {
-        $this->nombreCliente = $nombreCliente;
+        $this->cliente = $nombreCliente;
 
         return $this;
     }
@@ -173,9 +200,9 @@ class Compra
      *
      * @return string 
      */
-    public function getNombreCliente()
+    public function getCliente()
     {
-        return $this->nombreCliente;
+        return $this->cliente;
     }
 
     /**
@@ -204,7 +231,7 @@ class Compra
     /**
      * Set total
      *
-     * @param integer $total
+     * @param decimal $total
      * @return Compra
      */
     public function setTotal($total)
@@ -217,7 +244,7 @@ class Compra
     /**
      * Get total
      *
-     * @return integer 
+     * @return decimal 
      */
     public function getTotal()
     {

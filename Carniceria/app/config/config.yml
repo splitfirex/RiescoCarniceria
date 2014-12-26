@@ -15,40 +15,55 @@ sonata_block:
         # Enable the SonataAdminBundle block
         sonata.admin.block.admin_list:
             contexts:   [admin]
-        # Your other blocks
+        sonata.block.service.rss:
+            contexts:   [admin]
+        sonata.block.service.text:
+            contexts:   [admin]
+        sonata.block.service.compralista: ~
+        sonata.block.service.alerta: ~
 
 sonata_admin:
     title:      RiescoAdmin
     title_logo: bundles/carniceria/images/logo.png
     templates:
-        dashboard: SonataAdminBundle:Core:dashboard.html.twig
+        # default global templates
+        layout:  SonataAdminBundle::standard_layout.html.twig
+        ajax:    SonataAdminBundle::ajax_layout.html.twig
+
+        # default actions templates, should extend a global templates
+        list:    SonataAdminBundle:CRUD:list.html.twig
+        show:    SonataAdminBundle:CRUD:show.html.twig
+        edit:    SonataAdminBundle:CRUD:edit.html.twig
 
     dashboard:
         blocks:
-            # display two dashboard blocks
+        # display two dashboard blocks
+            - { position: left, type: sonata.block.service.text, settings: { content: "<h2>Bienvenido!</h2> Sistema de administracion de venta y productos de Chollosoft para la carniceria Riesco."} }
+
             -
                 position: left
                 type: sonata.admin.block.admin_list
                 settings:
                     groups: [chollosoft.admin.group.content]
             -
-                position: right
+                position: left
                 type: sonata.admin.block.admin_list
                 settings:
                     groups: [chollosoft.admin.group.content2]
+            -   
+                position: left
+                type: sonata.block.service.alerta        
+            -   
+                position: right
+                type: sonata.block.service.compralista
+
         groups:
             chollosoft.admin.group.content:
                 label: "Productos"
                 label_catalogue: CarniceriaBundle
                 items:
                     - sonata.admin.producto
-                    - sonata.admin.carro
-            chollosoft.admin.group.content2:
-                label: "Categorias"
-                label_catalogue: CarniceriaBundle
-                items:
                     - sonata.admin.categoria
-                    - sonata.admin.compra
 
 sonata_doctrine_orm_admin:
     # default value is null, so doctrine uses the value defined in the configuration

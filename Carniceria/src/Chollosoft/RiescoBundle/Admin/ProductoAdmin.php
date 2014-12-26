@@ -34,6 +34,7 @@ class ProductoAdmin extends Admin
 		$formMapper
 		->add('nombre', 'text', array('label' => 'Nombre Producto'))
 		->add('descripcion', 'text', array('label' => 'Descripcion'))
+		->add('unidadDeCompra', 'text', array('label' => 'Unidad de Venta'))
 		->add('precio', 'number')
 		->add('stock', 'integer', array('label' => 'En inventario'))
 		->add('alarmaStock', 'integer', array('label' => 'Alarma de inventario'))
@@ -60,6 +61,8 @@ class ProductoAdmin extends Admin
 		$listMapper
 		->addIdentifier('nombre')
 		->add('descripcion')
+		->add('precio', 'currency', array('currency' => '€'))
+	    ->add('unidadDeCompra')
 		->add('stock')
 		->add('alarmaStock')
 		->add('categorias')
