@@ -16,6 +16,7 @@ class CategoriaAdmin extends Admin
 	{
 		
 		// get the current Image instance
+			// get the current Image instance
 		$image = $this->getSubject();
 		
 		// use $fileFieldOptions so we can add other options to the field
@@ -26,9 +27,10 @@ class CategoriaAdmin extends Admin
 			$fullPath = $container->get('request')->getBasePath().'/uploads/'.$webPath;
 		
 			// add a 'help' option containing the preview's img tag
-			$fileFieldOptions['help'] = '<img src="'.$fullPath.'" class="admin-preview" />';
+			$fileFieldOptions['help'] = '<img src="'.$fullPath.'" class="admin-preview"  height="200px" />';
 			$fileFieldOptions['required'] = false;
 		}
+		
 		
 		
 		$formMapper

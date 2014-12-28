@@ -35,8 +35,7 @@ class CarroController extends Controller
 
 
         return array(
-            'entities' => $entities,
-        	'session' => "g"
+            'entities' => $entities
         );
     }
     /**
@@ -57,8 +56,12 @@ class CarroController extends Controller
     		$em = $this->getDoctrine()->getManager();
     		$entity = new Carro();
     		$entity->setUsuarioSession($session->getId());
-    		$entity->setIdProducto($em->getRepository('CarniceriaBundle:Producto')->findOneById(2));
-    		$entity->setPrecioProducto(232);
+    		$idProducto = $request->request->get ( 'idProducto' );
+    		
+    		$producto = $em->getRepository('CarniceriaBundle:Producto')->findOneById($idProducto);
+    		
+    		$entity->setIdProducto($producto);
+    		$entity->setPrecioProducto($producto->getPrecio());
     		$entity->setCantidad(1);
     		//$serializedEntity = $this->container->get('serializer')->serialize($data, 'json');
     		//return new Response($data["cantidad"]);

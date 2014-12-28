@@ -44,15 +44,16 @@
 			</call>
 		</service>
 		<service id="sonata.block.service.compralista" class="Chollosoft\RiescoBundle\Block\ComprasService">
-		    <tag name="sonata.block" />
-		    <argument>sonata.block.service.compralista</argument>
-		    <argument type="service" id="templating" />
-		</service>		
+			<tag name="sonata.block" />
+			<argument>sonata.block.service.compralista</argument>
+			<argument type="service" id="templating" />
+			<argument type="service" id="doctrine.orm.entity_manager" />
+		</service>
 		<service id="sonata.block.service.alerta" class="Chollosoft\RiescoBundle\Block\AlertasService">
-		    <tag name="sonata.block" />
-		    <argument>sonata.block.service.alerta</argument>
-		    <argument type="service" id="templating" />
-		</service>	
+			<tag name="sonata.block" manager_type="orm" />
+			<argument>sonata.block.service.alerta</argument>
+			<argument type="service" id="templating" />
+			<argument type="service" id="doctrine.orm.entity_manager" />
+		</service>
 	</services>
-
 </container>

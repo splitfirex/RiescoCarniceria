@@ -27,7 +27,7 @@ class ProductoAdmin extends Admin
 			$fullPath = $container->get('request')->getBasePath().'/uploads/'.$webPath;
 		
 			// add a 'help' option containing the preview's img tag
-			$fileFieldOptions['help'] = '<img src="'.$fullPath.'" class="admin-preview" />';
+			$fileFieldOptions['help'] = '<img src="'.$fullPath.'" class="admin-preview" height="200px"/>';
 			$fileFieldOptions['required'] = false;
 		}
 		

@@ -9,86 +9,17 @@
 
 
 	<div class="panel-body">
-
 		<table class="sonata-order-block-order-container table table-condensed">
-			<tbody><tr>
-				<td><a href="http://demo.sonata-project.org/admin/sonata/order/order/201/edit">141226000101</a></td>
-				<td class="number">€935.00</td>
-				<td><span class="label label-success">Entregado</span></td>
-				<td>26 déc. 2014 13:34:25</td>
-			</tr>
+			<tbody>
+			{% for compra in compras %}
+
 			<tr>
-				<td><a href="http://demo.sonata-project.org/admin/sonata/order/order/199/edit">20130701000100</a></td>
-				<td class="number">€7,543.49</td>
-				<td><span class="label label-success">Entregado</span></td>
-				<td>26 déc. 2014 12:05:07</td>
+				<td><a href="{{ path('compra_admin_edit',{'id': compra.usuarioSession }) }}">{{ compra.usuarioSession }}</a></td>
+				<td class="number">EUR {{ compra.total }}</td>
+				<td><span class="label label-success">{{ compra.estado }}</span></td>
+				<td>{{ compra.fechaCompra|date('Y-m-d H:i:s') }}</td>
 			</tr>
-			<tr>
-				<td><a href="http://demo.sonata-project.org/admin/sonata/order/order/197/edit">20130701000099</a></td>
-				<td class="number">€21,312.50</td>
-				<td><span class="label label-success">Entregado</span></td>
-				<td>26 déc. 2014 12:05:06</td>
-			</tr>
-			<tr>
-				<td><a href="http://demo.sonata-project.org/admin/sonata/order/order/195/edit">20130701000098</a></td>
-				<td class="number">€5,288.49</td>
-				<td><span class="label label-danger">Cancelado</span></td>
-				<td>26 déc. 2014 12:05:04</td>
-			</tr>
-			<tr>
-				<td><a href="http://demo.sonata-project.org/admin/sonata/order/order/191/edit">20130701000096</a></td>
-				<td class="number">€18,964.48</td>
-				<td><span class="label label-info">revisado</span></td>
-				<td>26 déc. 2014 12:05:03</td>
-			</tr>
-			<tr>
-				<td><a href="http://demo.sonata-project.org/admin/sonata/order/order/201/edit">141226000101</a></td>
-				<td class="number">€935.00</td>
-				<td><span class="label label-success">Entregado</span></td>
-				<td>26 déc. 2014 13:34:25</td>
-			</tr>
-			<tr>
-				<td><a href="http://demo.sonata-project.org/admin/sonata/order/order/199/edit">20130701000100</a></td>
-				<td class="number">€7,543.49</td>
-				<td><span class="label label-success">Entregado</span></td>
-				<td>26 déc. 2014 12:05:07</td>
-			</tr>
-			<tr>
-				<td><a href="http://demo.sonata-project.org/admin/sonata/order/order/197/edit">20130701000099</a></td>
-				<td class="number">€21,312.50</td>
-				<td><span class="label label-success">Entregado</span></td>
-				<td>26 déc. 2014 12:05:06</td>
-			</tr>
-			<tr>
-				<td><a href="http://demo.sonata-project.org/admin/sonata/order/order/195/edit">20130701000098</a></td>
-				<td class="number">€5,288.49</td>
-				<td><span class="label label-danger">Cancelado</span></td>
-				<td>26 déc. 2014 12:05:04</td>
-			</tr>
-			<tr>
-				<td><a href="http://demo.sonata-project.org/admin/sonata/order/order/191/edit">20130701000096</a></td>
-				<td class="number">€18,964.48</td>
-				<td><span class="label label-danger">Cancelado</span></td>
-				<td>26 déc. 2014 12:05:03</td>
-			</tr>
-						<tr>
-				<td><a href="http://demo.sonata-project.org/admin/sonata/order/order/197/edit">20130701000099</a></td>
-				<td class="number">€21,312.50</td>
-				<td><span class="label label-success">Entregado</span></td>
-				<td>26 déc. 2014 12:05:06</td>
-			</tr>
-			<tr>
-				<td><a href="http://demo.sonata-project.org/admin/sonata/order/order/195/edit">20130701000098</a></td>
-				<td class="number">€5,288.49</td>
-				<td><span class="label label-danger">Cancelado</span></td>
-				<td>26 déc. 2014 12:05:04</td>
-			</tr>
-			<tr>
-				<td><a href="http://demo.sonata-project.org/admin/sonata/order/order/191/edit">20130701000096</a></td>
-				<td class="number">€18,964.48</td>
-				<td><span class="label label-info">Revisado</span></td>
-				<td>26 déc. 2014 12:05:03</td>
-			</tr>
+			{% endfor %}
 		</tbody></table>
 
 		<a href="http://localhost/web/app_dev.php/admin/chollosoft/riesco/compra/list" class="btn btn-primary btn-block"><i class="fa fa-list"></i>&nbsp;Ver todas las Ordenes</a>

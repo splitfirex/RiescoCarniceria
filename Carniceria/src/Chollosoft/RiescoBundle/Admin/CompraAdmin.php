@@ -11,6 +11,8 @@ use Sonata\AdminBundle\Form\FormMapper;
 
 class CompraAdmin extends Admin
 {
+	protected $baseRouteName = 'compra_admin';
+	
 	// Fields to be shown on create/edit forms
 	protected function configureFormFields(FormMapper $formMapper)
 	{

@@ -13,6 +13,14 @@ use Sonata\BlockBundle\Block\BaseBlockService;
 
 class ComprasService extends BaseBlockService
 {
+	private $em;
+
+	public function __construct($name, $templating, \Doctrine\ORM\EntityManager $entityManager)
+	{
+		parent::__construct($name, $templating);
+		$this->em = $entityManager;
+	}
+	
     public function getName()
     {
         return 'My Newsletter';
@@ -35,10 +43,13 @@ class ComprasService extends BaseBlockService
     {
     // merge settings
         $settings = array_merge($this->getDefaultSettings(), $blockContext->getSettings());
+        
+        $entities = $this->em->getRepository('CarniceriaBundle:Compra')->findAll();
 
         return $this->renderResponse('CarniceriaBundle:Partials:Comprasblock_partial.html.twig', array(
             'block'     => $blockContext->getBlock(),
-            'settings'  => $settings
+            'settings'  => $settings,
+        	'compras'	=> $entities
             ), $response);
     }
 }

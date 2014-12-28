@@ -400,7 +400,7 @@ class Producto
 		if (null !== $this->file) {
 			// do whatever you want to generate a unique name
 			$filename = sha1(uniqid(mt_rand(), true));
-			$this->filename = $this->getFile()->getClientOriginalName();
+			$this->setFilename($this->getFile()->getClientOriginalName());
 		}
 	}
 	

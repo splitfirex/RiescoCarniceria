@@ -63,7 +63,9 @@ sonata_admin:
                 label_catalogue: CarniceriaBundle
                 items:
                     - sonata.admin.producto
-                    - sonata.admin.categoria
+                    - sonata.admin.categoria       
+                    - sonata.admin.carro
+                    - sonata.admin.compra
 
 sonata_doctrine_orm_admin:
     # default value is null, so doctrine uses the value defined in the configuration

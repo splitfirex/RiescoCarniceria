@@ -5,6 +5,8 @@ namespace Chollosoft\RiescoBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\ArrayCollection;
+use JMS\Serializer\Annotation\Type;
 
 /**
  * Categoria
@@ -37,6 +39,7 @@ class Categoria {
 	/**
 	 *
 	 * @var Productos @ORM\ManyToMany(targetEntity="Producto", mappedBy="categorias", fetch="EXTRA_LAZY")
+	 * @Type("ArrayCollection<Chollosoft\RiescoBundle\Entity\Producto>")
 	 */
 	private $productos;
 	
@@ -97,7 +100,12 @@ class Categoria {
 		return $this->productos;
 	}
 	
-	// SECCION DE EL FICHERO DE IMAGEN
+	public function setProductos(\Doctrine\Common\Collections\ArrayCollection $productos) {
+		 $this->productos = $productos;
+		 return $this;
+	}
+	
+// SECCION DE EL FICHERO DE IMAGEN
 	
 	/**
 	 * Image file
@@ -174,7 +182,7 @@ class Categoria {
 		if (null !== $this->file) {
 			// do whatever you want to generate a unique name
 			$filename = sha1(uniqid(mt_rand(), true));
-			$this->filename = $this->getFile()->getClientOriginalName();
+			$this->setFilename ( $this->getFile()->getClientOriginalName());
 		}
 	}
 	
@@ -190,4 +198,5 @@ class Categoria {
 		//	unlink($file);
 		//}
 	}
+	
 }
