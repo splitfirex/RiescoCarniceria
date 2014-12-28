@@ -1,0 +1,219 @@
+{% extends 'CarniceriaBundle::layout.html.twig' %} {% block javascript
+%}
+<script type="text/javascript">
+    $(function(){
+      $("#shopping_cart_button").on("click",function(){
+
+        if($(this).data("estado")==="productos"){
+            $(this).data("estado","carro");
+            $("#category").toggle( "slide", {}, 200 ).promise().done(function(){
+                $("#shopping_cart").toggle( "slide", {}, 200 );
+                $(".content").switchClass( "", "shopping", 200, "easeInOutQuad" );
+                $("#shopping_cart_button").css("background-image","url('{{ asset('bundles/carniceria/images/cart-inverted.png') }}')");
+            });
+        }else{
+            $(this).data("estado","productos");
+             $("#shopping_cart").toggle( "slide", {}, 200 ).promise().done(function(){
+                $("#category").toggle( "slide", {}, 300);
+                $(".content").switchClass( "shopping", "", 200, "easeInOutQuad" );
+                $("#shopping_cart_button").css("background-image","url('{{ asset('bundles/carniceria/images/cart.png') }}')");
+            });
+        }  
+
+    });
+
+      
+
+		$(".spinner").spinner();
+      
+      $('.categoria-filter').on("click", function(){
+			var cat = $(this).data("categoria");
+
+			 $.getJSON("{{ url('categoria_listar') }}",{ idCategoria: cat }, poblarProductos);
+
+			
+          });
+      
+      $.getJSON("{{ url('categoria_listar') }}",{ idCategoria: '0' }, poblarProductos);
+      
+      });
+
+    
+
+    function poblarProductos(data){
+		$(".categoria-titulo").html("Categoria: "+data.nombre+" > Productos");
+		$(".categoria-descripcion").html(data.descripcion);
+		$(".categoria-productos").html("");
+	
+		for (key in data.productos) {
+			var row = $("<tr></tr>");
+
+			var src = "{{  asset("uploads/") }}"+data.productos[key].filename;
+			row.append($("<td></td>").html("<img src=\""+src+"\" style='margin-bottom: 0px' width='40px' height='40px'>"));
+			row.append($("<td></td>").html("<strong>"+data.productos[key].nombre+"</strong>"));
+			row.append($("<td></td>").html('Disponible : '+data.productos[key].stock+ ''+data.productos[key].unidad_de_compra +"    <strong> Precio : \u20AC "+data.productos[key].precio +'</strong>'));
+
+			var spin = $( "<input class='spinner' name='value' style='width:40px'>" ).spinner();
+			var addCart = $("<td></td>");
+			addCart.append(spin);
+			addCart.append("<a href='javascript:void(0);' data-producto='"+data.productos[key].id+"'  class='addCart'><span class='fa fa-shopping-cart'></span>Agregar Al carro</a>");
+			row.append(addCart);
+			$(".categoria-productos").append(row);
+		}
+
+		$('.addCart').on("click", function(){
+
+	          $.post('{{ url("carro_create") }}',{ idProducto: $(this).data('producto'), cantidad: '100' }, function( data ) {
+	        	  alert( data );
+	          });
+	    	  
+	      });
+		/*<tr>
+		<td><img alt="" src="http://dummyimage.com/100x100/000/fff"
+			style="margin-bottom: 0px"></td>
+		<td>Redondo con Especias</td>
+		<td><div class="fa fa-eye"></div>Disponible : 20 Kg <input
+			class="spinner" name="value"></td>
+		<td><a href="#" class="addCart"><span class="fa fa-link"></span>
+				Agregar Al carro</a></td>
+	</tr>
+		*/
+        }
+
+    
+    </script>
+{% endblock %} {% block body -%}
+<section class="content">
+	<div class="container">
+
+
+
+		<div class="row">
+			<div class="grid_7" id="shopping_cart">
+
+				<h2>Productos del carro</h2>
+				<div class="blog">
+					<table>
+						<tbody>
+							<tr>
+								<td><div class="fa fa-comments"></div> No commentts</td>
+								<td><div class="fa fa-eye"></div>182
+									<div class="fa fa-thumbs-up"></div>0
+									<div class="fa fa-thumbs-down"></div>0</td>
+								<td><a href="#"><span class="fa fa-link"></span> Agregar Al
+										carro</a></td>
+							</tr>
+							<tr>
+								<td><div class="fa fa-comments"></div> No commentts</td>
+								<td><div class="fa fa-eye"></div>182
+									<div class="fa fa-thumbs-up"></div>0
+									<div class="fa fa-thumbs-down"></div>0</td>
+								<td><a href="#"><span class="fa fa-link"></span> Agregar Al
+										carro</a></td>
+							</tr>
+							<tr>
+								<td><div class="fa fa-comments"></div> No commentts</td>
+								<td><div class="fa fa-eye"></div>182
+									<div class="fa fa-thumbs-up"></div>0
+									<div class="fa fa-thumbs-down"></div>0</td>
+								<td><a href="#"><span class="fa fa-link"></span> Agregar Al
+										carro</a></td>
+							</tr>
+							<tr>
+								<td><div class="fa fa-comments"></div> No commentts</td>
+								<td><div class="fa fa-eye"></div>182
+									<div class="fa fa-thumbs-up"></div>0
+									<div class="fa fa-thumbs-down"></div>0</td>
+								<td><a href="#"><span class="fa fa-link"></span> Agregar Al
+										carro</a></td>
+							</tr>
+							<tr>
+								<td><div class="fa fa-comments"></div> No commentts</td>
+								<td><div class="fa fa-eye"></div>182
+									<div class="fa fa-thumbs-up"></div>0
+									<div class="fa fa-thumbs-down"></div>0</td>
+								<td><a href="#"><span class="fa fa-link"></span> Agregar Al
+										carro</a></td>
+							</tr>
+							<tr>
+								<td><div class="fa fa-comments"></div> No commentts</td>
+								<td><div class="fa fa-eye"></div>182
+									<div class="fa fa-thumbs-up"></div>0
+									<div class="fa fa-thumbs-down"></div>0</td>
+								<td><a href="#"><span class="fa fa-link"></span> Agregar Al
+										carro</a></td>
+							</tr>
+							<tr>
+								<td><div class="fa fa-comments"></div> No commentts</td>
+								<td><div class="fa fa-eye"></div>182
+									<div class="fa fa-thumbs-up"></div>0
+									<div class="fa fa-thumbs-down"></div>0</td>
+								<td><a href="#"><span class="fa fa-link"></span> Agregar Al
+										carro</a></td>
+							</tr>
+							<tr>
+								<td><div class="fa fa-comments"></div> No commentts</td>
+								<td><div class="fa fa-eye"></div>182
+									<div class="fa fa-thumbs-up"></div>0
+									<div class="fa fa-thumbs-down"></div>0</td>
+								<td><a href="#"><span class="fa fa-link"></span> Agregar Al
+										carro</a></td>
+							</tr>
+							<tr>
+								<td><div class="fa fa-comments"></div> No commentts</td>
+								<td><div class="fa fa-eye"></div>182
+									<div class="fa fa-thumbs-up"></div>0
+									<div class="fa fa-thumbs-down"></div>0</td>
+								<td><a href="#"><span class="fa fa-link"></span> Agregar Al
+										carro</a></td>
+							</tr>
+							<tr>
+								<td><div class="fa fa-comments"></div> No commentts</td>
+								<td><div class="fa fa-eye"></div>182
+									<div class="fa fa-thumbs-up"></div>0
+									<div class="fa fa-thumbs-down"></div>0</td>
+								<td><a href="#"><span class="fa fa-link"></span> Agregar Al
+										carro</a></td>
+							</tr>
+							<tr>
+								<td><div class="fa fa-comments"></div> No commentts</td>
+								<td><div class="fa fa-eye"></div>182
+									<div class="fa fa-thumbs-up"></div>0
+									<div class="fa fa-thumbs-down"></div>0</td>
+								<td><a href="#"><span class="fa fa-link"></span> Agregar Al
+										carro</a></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="grid_4 preffix_1">
+				<h2>Datos del Comprador</h2>
+				<form id="form" method="POST" action="mail/MailHandler.php">
+					<label class="name"> <input type="text" name="name" value="Nombre"
+						data-constraints="@Required @JustLetters"
+						id="regula-generated-755479" class="once-verified"></label> <label
+						class="name" style="margin-left: 0px"> <input type="text"
+						name="email" value="Telefono" data-constraints="@Required @Email"
+						id="regula-generated-877288">
+					</label> <label class="name" style="margin-left: 0px"> <input
+						type="text" name="email" value="Total a pagar : 412314 $"
+						data-constraints="@Required @Email" id="regula-generated-877288">
+					</label> <label class="message"> <textarea name="message"
+							data-constraints="@Required @Length(min=20,max=999999)"
+							id="regula-generated-294428" class="" style="height: 150px">Direccion</textarea></label>
+					<div class="clear"></div>
+					<div class="btns">
+						<a href="#" data-type="reset" class="btn">Cancelar</a>
+						<a href="#" data-type="reset" class="btn">Enviar solicitud</a>
+					</div>
+				</form>
+			</div>
+
+		</div>
+	</div>
+</section>
+
+
+
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>Compra</h1>
+
+    <table class="record_properties">
+        <tbody>
+            <tr>
+                <th>Fechacompra</th>
+                <td>{{ entity.fechaCompra|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Usuariosession</th>
+                <td>{{ entity.usuarioSession }}</td>
+            </tr>
+            <tr>
+                <th>Cliente</th>
+                <td>{{ entity.cliente }}</td>
+            </tr>
+            <tr>
+                <th>Telefono</th>
+                <td>{{ entity.telefono }}</td>
+            </tr>
+            <tr>
+                <th>Direccion</th>
+                <td>{{ entity.direccion }}</td>
+            </tr>
+            <tr>
+                <th>Total</th>
+                <td>{{ entity.total }}</td>
+            </tr>
+            <tr>
+                <th>Estado</th>
+                <td>{{ entity.estado }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('compra') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('compra_edit', { 'id': entity.usuarioSession }) }}">
+            Edit
+        </a>
+    </li>
+    <li>{{ form(delete_form) }}</li>
+</ul>
+{% endblock %}

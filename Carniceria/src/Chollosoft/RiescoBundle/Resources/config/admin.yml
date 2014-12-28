@@ -1,0 +1,52 @@
+services:
+    sonata.admin.categoria:
+        class: Chollosoft\RiescoBundle\Admin\CategoriaAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Contenido", label: "Categoria" }
+        arguments:
+            - ~
+            - Chollosoft\RiescoBundle\Entity\Categoria
+            - ~
+        calls:
+            - [ setTranslationDomain, [CarniceriaBundle]]
+    sonata.admin.producto:
+        class: Chollosoft\RiescoBundle\Admin\ProductoAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Contenido", label: "Producto" }
+        arguments:
+            - ~
+            - Chollosoft\RiescoBundle\Entity\Categoria
+            - ~
+        calls:
+            - [ setTranslationDomain, [CarniceriaBundle]]
+    sonata.admin.carro:
+        class: Chollosoft\RiescoBundle\Admin\CarroAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Contenido", label: "Carro" }
+        arguments:
+            - ~
+            - Chollosoft\RiescoBundle\Entity\Carro
+            - ~
+        calls:
+            - [ setTranslationDomain, [CarniceriaBundle]]
+    sonata.admin.carro:
+        class: Chollosoft\RiescoBundle\Admin\CompraAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Contenido", label: "Compra" }
+        arguments:
+            - ~
+            - Chollosoft\RiescoBundle\Entity\Compra
+            - ~
+        calls:
+            - [ setTranslationDomain, [CarniceriaBundle]]
+            
+    sonata.block.service.compralista:
+        class:  Chollosoft\RiescoBundle\Block\ComprasService
+        tags:
+            - { name: sonata.block }
+        arguments: ["sonata.block.service.compralista","@templating","@doctrine.orm.entity_manager"]
+    sonata.block.service.alerta:
+        class:  Chollosoft\RiescoBundle\Block\AlertasService
+        tags:
+            - { name: sonata.block }
+        arguments: ["sonata.block.service.alerta","@templating","@doctrine.orm.entity_manager"]
