@@ -32,7 +32,7 @@ class Carro
     /**
      * @var integer
      * 
-     * @ORM\OneToOne(targetEntity="Producto")
+     * @ORM\ManyToOne(targetEntity="Producto")
      */
     private $idProducto;
 

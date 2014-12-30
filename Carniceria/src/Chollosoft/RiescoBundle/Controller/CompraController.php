@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Chollosoft\RiescoBundle\Entity\Compra;
+use Chollosoft\RiescoBundle\Entity\Carro;
 use Chollosoft\RiescoBundle\Form\CompraType;
 
 /**
@@ -45,16 +46,29 @@ class CompraController extends Controller
     public function createAction(Request $request)
     {
         $entity = new Compra();
-        $form = $this->createCreateForm($entity);
-        $form->handleRequest($request);
+        //$form = $this->createCreateForm($entity);
+        $session = $this->get('session');
+        $session->start();
+        $entity->setUsuarioSession($session->getId());
+        $entity->setCliente("CLIENET");
+        $entity->setTelefono("dsdsd");
+        $entity->setDireccion("dsdsds");
+        $entity->setEstado("PorRevisar");
+        $entity->setTotal(2000.32);
+       // $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        //if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+
+        $carros = $em->getRepository('CarniceriaBundle:Carro')->findBy(array('usuarioSession' => $session->getId() ));
+        $entity->setCarros($carros); 
+
             $em->persist($entity);
             $em->flush();
-
-            return $this->redirect($this->generateUrl('compra_show', array('id' => $entity->getId())));
-        }
+     $session->invalidate();
+            return $this->redirect($this->generateUrl('compra_show', array('id' => $entity->getusuarioSession())));
+   
+        //}
 
         return array(
             'entity' => $entity,

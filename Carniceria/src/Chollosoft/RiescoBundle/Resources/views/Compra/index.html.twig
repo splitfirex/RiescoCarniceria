@@ -34,11 +34,42 @@
 			
           });
       
-      $.getJSON("{{ url('categoria_listar') }}",{ idCategoria: '0' }, poblarProductos);
+      $.getJSON("{{ url('carro_listar') }}", poblarCarro);
       
       });
 
     
+
+
+    function poblarCarro(data){
+		$(".carro-productos").html("");
+
+		for (key in data) {
+			var row = $("<tr></tr>");
+
+			var src = "{{  asset("uploads/") }}"+data[key].id_producto.filename;
+			row.append($("<td></td>").html("<img src=\""+src+"\" style='margin-bottom: 0px' width='40px' height='40px'>"));
+			row.append($("<td></td>").html("<strong>"+data[key].id_producto.nombre+"</strong>"));
+			row.append($("<td></td>").html('Disponible : '+data[key].id_producto.stock+ ''+data[key].id_producto.unidad_de_compra +"    <strong> Precio por "+ data[key].id_producto.unidad_de_compra +": \u20AC "+data[key].precio_producto +'</strong>'));
+
+			var spin = $( "<input class='spinner' value='"+data[key].cantidad+"' style='width:25px; margin-right:0px;  border-width:1px'>" );
+			var addCart = $("<td></td>");
+			addCart.append(spin);
+			addCart.append(data[key].id_producto.unidad_de_compra);
+			addCart.append("<a href='javascript:void(0);' data-producto='"+data[key].id+"'  class='addCart'><span class='fa fa-shopping-cart'></span>Eliminar del carro</a>");
+			row.append(addCart);
+			$(".carro-productos").append(row);
+		}
+
+		$('.addCart').on("click", function(){
+
+	          $.post('{{ url("carro_create") }}',{ idProducto: $(this).data('producto'), cantidad: '100' }, function( data ) {
+	        	  alert( data );
+	          });
+	    	  
+	      });
+
+    }
 
     function poblarProductos(data){
 		$(".categoria-titulo").html("Categoria: "+data.nombre+" > Productos");
@@ -86,103 +117,15 @@
 <section class="content">
 	<div class="container">
 
-
-
 		<div class="row">
 			<div class="grid_7" id="shopping_cart">
 
 				<h2>Productos del carro</h2>
 				<div class="blog">
+				<p>Alerta! Los productos en este carro de compra podrian no estar disponibles al momento de realizar el pedido de envio.</p>
 					<table>
-						<tbody>
-							<tr>
-								<td><div class="fa fa-comments"></div> No commentts</td>
-								<td><div class="fa fa-eye"></div>182
-									<div class="fa fa-thumbs-up"></div>0
-									<div class="fa fa-thumbs-down"></div>0</td>
-								<td><a href="#"><span class="fa fa-link"></span> Agregar Al
-										carro</a></td>
-							</tr>
-							<tr>
-								<td><div class="fa fa-comments"></div> No commentts</td>
-								<td><div class="fa fa-eye"></div>182
-									<div class="fa fa-thumbs-up"></div>0
-									<div class="fa fa-thumbs-down"></div>0</td>
-								<td><a href="#"><span class="fa fa-link"></span> Agregar Al
-										carro</a></td>
-							</tr>
-							<tr>
-								<td><div class="fa fa-comments"></div> No commentts</td>
-								<td><div class="fa fa-eye"></div>182
-									<div class="fa fa-thumbs-up"></div>0
-									<div class="fa fa-thumbs-down"></div>0</td>
-								<td><a href="#"><span class="fa fa-link"></span> Agregar Al
-										carro</a></td>
-							</tr>
-							<tr>
-								<td><div class="fa fa-comments"></div> No commentts</td>
-								<td><div class="fa fa-eye"></div>182
-									<div class="fa fa-thumbs-up"></div>0
-									<div class="fa fa-thumbs-down"></div>0</td>
-								<td><a href="#"><span class="fa fa-link"></span> Agregar Al
-										carro</a></td>
-							</tr>
-							<tr>
-								<td><div class="fa fa-comments"></div> No commentts</td>
-								<td><div class="fa fa-eye"></div>182
-									<div class="fa fa-thumbs-up"></div>0
-									<div class="fa fa-thumbs-down"></div>0</td>
-								<td><a href="#"><span class="fa fa-link"></span> Agregar Al
-										carro</a></td>
-							</tr>
-							<tr>
-								<td><div class="fa fa-comments"></div> No commentts</td>
-								<td><div class="fa fa-eye"></div>182
-									<div class="fa fa-thumbs-up"></div>0
-									<div class="fa fa-thumbs-down"></div>0</td>
-								<td><a href="#"><span class="fa fa-link"></span> Agregar Al
-										carro</a></td>
-							</tr>
-							<tr>
-								<td><div class="fa fa-comments"></div> No commentts</td>
-								<td><div class="fa fa-eye"></div>182
-									<div class="fa fa-thumbs-up"></div>0
-									<div class="fa fa-thumbs-down"></div>0</td>
-								<td><a href="#"><span class="fa fa-link"></span> Agregar Al
-										carro</a></td>
-							</tr>
-							<tr>
-								<td><div class="fa fa-comments"></div> No commentts</td>
-								<td><div class="fa fa-eye"></div>182
-									<div class="fa fa-thumbs-up"></div>0
-									<div class="fa fa-thumbs-down"></div>0</td>
-								<td><a href="#"><span class="fa fa-link"></span> Agregar Al
-										carro</a></td>
-							</tr>
-							<tr>
-								<td><div class="fa fa-comments"></div> No commentts</td>
-								<td><div class="fa fa-eye"></div>182
-									<div class="fa fa-thumbs-up"></div>0
-									<div class="fa fa-thumbs-down"></div>0</td>
-								<td><a href="#"><span class="fa fa-link"></span> Agregar Al
-										carro</a></td>
-							</tr>
-							<tr>
-								<td><div class="fa fa-comments"></div> No commentts</td>
-								<td><div class="fa fa-eye"></div>182
-									<div class="fa fa-thumbs-up"></div>0
-									<div class="fa fa-thumbs-down"></div>0</td>
-								<td><a href="#"><span class="fa fa-link"></span> Agregar Al
-										carro</a></td>
-							</tr>
-							<tr>
-								<td><div class="fa fa-comments"></div> No commentts</td>
-								<td><div class="fa fa-eye"></div>182
-									<div class="fa fa-thumbs-up"></div>0
-									<div class="fa fa-thumbs-down"></div>0</td>
-								<td><a href="#"><span class="fa fa-link"></span> Agregar Al
-										carro</a></td>
-							</tr>
+						<tbody class="carro-productos">
+							
 						</tbody>
 					</table>
 				</div>
@@ -201,8 +144,9 @@
 						data-constraints="@Required @Email" id="regula-generated-877288">
 					</label> <label class="message"> <textarea name="message"
 							data-constraints="@Required @Length(min=20,max=999999)"
-							id="regula-generated-294428" class="" style="height: 150px">Direccion</textarea></label>
+							id="regula-generated-294428" class="" style="height: 150px">Direccion de entrega</textarea></label>
 					<div class="clear"></div>
+					<p>Este es un servicio de solicitudes de envio a domicilio, una vez realizada la solicitud se llamara al destino para confirmar el pedido y realizar la entrega, NO SE HARA NINGUN TIPO DE COBRO POR ESTA VIA.
 					<div class="btns">
 						<a href="#" data-type="reset" class="btn">Cancelar</a>
 						<a href="#" data-type="reset" class="btn">Enviar solicitud</a>

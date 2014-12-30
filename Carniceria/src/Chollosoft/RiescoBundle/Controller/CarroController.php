@@ -38,6 +38,32 @@ class CarroController extends Controller
             'entities' => $entities
         );
     }
+
+
+    /**
+     * Lists all Carro entities.
+     *
+     * @Route("/listar", name="carro_listar")
+     * @Method("GET")
+     * @Template()
+     */
+    public function listarAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $session = $this->get('session');
+        $session->start();
+
+        $entities = $em->getRepository('CarniceriaBundle:Carro')->findBy(array('usuarioSession' => $session->getId()));
+
+        $serializedEntity = $this->container->get('serializer')->serialize($entities, 'json');
+        
+        return new Response($serializedEntity);
+
+
+    }
+
+
     /**
      * Creates a new Carro entity.
      *
@@ -57,19 +83,20 @@ class CarroController extends Controller
     		$entity = new Carro();
     		$entity->setUsuarioSession($session->getId());
     		$idProducto = $request->request->get ( 'idProducto' );
-    		
+    		$cantidad = $request->request->get ( 'cantidad' );
+
     		$producto = $em->getRepository('CarniceriaBundle:Producto')->findOneById($idProducto);
-    		
+
     		$entity->setIdProducto($producto);
     		$entity->setPrecioProducto($producto->getPrecio());
-    		$entity->setCantidad(1);
+    		$entity->setCantidad($cantidad);
     		//$serializedEntity = $this->container->get('serializer')->serialize($data, 'json');
     		//return new Response($data["cantidad"]);
     		//$form = $this->createCreateForm($entity);
     		//$form->handleRequest($request);
     		
-    	
-    			
+           
+         
     			$em->persist($entity);
     			$em->flush();
     		

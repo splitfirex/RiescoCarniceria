@@ -33,10 +33,12 @@ class ProductoController extends Controller
         $entities = $em->getRepository('CarniceriaBundle:Producto')->findAll();
 
         $categorias = $em->getRepository('CarniceriaBundle:Categoria')->findAll();
+
+     
         
         return array(
             'entities' => $entities,
-        	'categorias' => $categorias	
+        	'categorias' => $categorias
         );
     }
     

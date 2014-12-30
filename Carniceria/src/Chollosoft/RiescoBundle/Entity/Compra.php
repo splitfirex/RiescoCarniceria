@@ -7,7 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Compra
  *
- * @ORM\Table()
+ * @ORM\Table() 
+ * @ORM\HasLifecycleCallbacks
  * @ORM\Entity
  */
 class Compra
@@ -272,5 +273,19 @@ class Compra
     public function getEstado()
     {
         return $this->estado;
+    }
+
+
+     /**
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function updatedTimestamps()
+    {
+    
+        if($this->getFechaCompra() == null)
+        {
+            $this->setFechaCompra(new \DateTime(date('Y-m-d H:i:s')));
+        }
     }
 }
