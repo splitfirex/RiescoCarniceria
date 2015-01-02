@@ -2,16 +2,16 @@
 <th> Cambiar estado</th>
 <td>
 	<span class="btn-group">
-		<a href="" onclick="return start_field_dialog_form_list_s54a69e5e9797d_customer(this);" class="btn btn-info btn-sm btn-outline sonata-ba-action" title="List">
+		<a href="{{ admin.generateObjectUrl('list', object) }}" onclick="return start_field_dialog_form_list_s54a69e5e9797d_customer(this);" class="btn btn-info btn-sm btn-outline sonata-ba-action" title="List">
 			<i class="fa fa-check-circle"></i>
 			Revisado
 		</a>
 
-		<a href="" onclick="return start_field_dialog_form_add_s54a69e5e9797d_customer(this);" class="btn btn-success btn-sm btn-outline sonata-ba-action" title="Add new">
+		<a href="{{ admin.generateObjectUrl('list', object) }}" onclick="return start_field_dialog_form_add_s54a69e5e9797d_customer(this);" class="btn btn-success btn-sm btn-outline sonata-ba-action" title="Add new">
 			<i class="fa fa-shopping-cart"></i>
 			Entregado
 		</a>
-		<a href="" onclick="return start_field_dialog_form_add_s54a69e5e9797d_customer(this);" class="btn btn-danger btn-sm btn-outline sonata-ba-action" title="Add new">
+		<a href="{{ admin.generateObjectUrl('list', object) }}" class="btn btn-danger btn-sm btn-outline sonata-ba-action" title="Add new">
 			<i class="fa fa-minus-circle"></i>
 			Cancelado
 		</a>
