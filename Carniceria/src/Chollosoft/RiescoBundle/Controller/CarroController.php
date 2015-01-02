@@ -250,30 +250,57 @@ class CarroController extends Controller
             'delete_form' => $deleteForm->createView(),
         );
     }
+
+
+
+ /**
+     * Edits an existing Carro entity.
+     *
+     * @Route("/update_cant", name="carro_update_cant")
+     * @Method("POST")
+     */
+    public function updateCantAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $idProducto = $request->request->get ( 'idProducto' );
+        $cantidad = $request->request->get ( 'cantidad' );
+        $entity = $em->getRepository('CarniceriaBundle:Carro')->find($idProducto);
+
+
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Carro entity.');
+        }
+        $entity->setCantidad($cantidad);
+
+
+        $em->flush();
+        return new Response("Exito");
+    
+    }
+
     /**
      * Deletes a Carro entity.
      *
-     * @Route("/{id}", name="carro_delete")
-     * @Method("DELETE")
+     * @Route("/delete", name="carro_delete")
+     * @Method("POST")
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction(Request $request)
     {
-        $form = $this->createDeleteForm($id);
-        $form->handleRequest($request);
+      
+        $em = $this->getDoctrine()->getManager();
+        $idProducto = $request->request->get ( 'idProducto' );
+        $entity = $em->getRepository('CarniceriaBundle:Carro')->find($idProducto);
 
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('CarniceriaBundle:Carro')->find($id);
-
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Carro entity.');
-            }
-
-            $em->remove($entity);
-            $em->flush();
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Carro entity.');
         }
 
-        return $this->redirect($this->generateUrl('carro'));
+        $em->remove($entity);
+        $em->flush();
+        
+
+       return new Response("Exito");
     }
 
     /**

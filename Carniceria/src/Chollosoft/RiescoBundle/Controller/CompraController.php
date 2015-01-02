@@ -50,9 +50,9 @@ class CompraController extends Controller
         $session = $this->get('session');
         $session->start();
         $entity->setUsuarioSession($session->getId());
-        $entity->setCliente("CLIENET");
-        $entity->setTelefono("dsdsd");
-        $entity->setDireccion("dsdsds");
+        $entity->setCliente($request->request->get ( 'name' ));
+        $entity->setTelefono($request->request->get ( 'telefono' ));
+        $entity->setDireccion($request->request->get ( 'direccion' ));
         $entity->setEstado("PorRevisar");
         $entity->setTotal(2000.32);
        // $form->handleRequest($request);
@@ -61,6 +61,7 @@ class CompraController extends Controller
             $em = $this->getDoctrine()->getManager();
 
         $carros = $em->getRepository('CarniceriaBundle:Carro')->findBy(array('usuarioSession' => $session->getId() ));
+
         $entity->setCarros($carros); 
 
             $em->persist($entity);

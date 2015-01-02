@@ -22,6 +22,49 @@
 
     });
 
+     $(".cancel").on("click", function(){
+     	$.getJSON("{{ url('categoria_listar') }}",{ idCategoria: cat }, poblarProductos);
+     }) 
+
+     $(".enviar").on("click", function(){
+     	$("#form").submit();
+     }) 
+
+      $("#nombre")
+      .focusin(function(){
+      	if($(this).val()==="Nombre"){
+      		$(this).val("");
+      	}
+      })
+      .focusout(function(){
+      	if($(this).val().trim()===""){
+      		$(this).val("Nombre");
+      	}
+      });
+
+       $("#telefono")
+      .focusin(function(){
+      	if($(this).val()==="Telefono"){
+      		$(this).val("");
+      	}
+      })
+      .focusout(function(){
+      	if($(this).val().trim()===""){
+      		$(this).val("Telefono");
+      	}
+      });
+
+       $("#direccion")
+      .focusin(function(){
+      	if($(this).val()==="Direccion de entrega"){
+      		$(this).val("");
+      	}
+      })
+      .focusout(function(){
+      	if($(this).val().trim()===""){
+      		$(this).val("Direccion de entrega");
+      	}
+      });
       
 
 		$(".spinner").spinner();
@@ -42,33 +85,60 @@
 
 
     function poblarCarro(data){
+    	var total = 0;
+
 		$(".carro-productos").html("");
 
 		for (key in data) {
 			var row = $("<tr></tr>");
 
 			var src = "{{  asset("uploads/") }}"+data[key].id_producto.filename;
-			row.append($("<td></td>").html("<img src=\""+src+"\" style='margin-bottom: 0px' width='40px' height='40px'>"));
+			row.append($("<td></td>").html("<img src=\""+src+"\" style='margin-bottom: 0px' width='80px' height='80px'>"));
 			row.append($("<td></td>").html("<strong>"+data[key].id_producto.nombre+"</strong>"));
-			row.append($("<td></td>").html('Disponible : '+data[key].id_producto.stock+ ''+data[key].id_producto.unidad_de_compra +"    <strong> Precio por "+ data[key].id_producto.unidad_de_compra +": \u20AC "+data[key].precio_producto +'</strong>'));
+			row.append($("<td></td>").html('Disponible : '+data[key].id_producto.stock+ ''+data[key].id_producto.unidad_de_compra +" </br>   <strong> Precio por "+ data[key].id_producto.unidad_de_compra +": \u20AC "+data[key].precio_producto +'</strong>'));
 
-			var spin = $( "<input class='spinner' value='"+data[key].cantidad+"' style='width:25px; margin-right:0px;  border-width:1px'>" );
+			var spin = $( "<input class='spinner' value='"+data[key].cantidad+"' style='width:50px; margin-right:0px;  border-width:1px; text-align:right;'>" );
 			var addCart = $("<td></td>");
-			addCart.append(spin);
-			addCart.append(data[key].id_producto.unidad_de_compra);
-			addCart.append("<a href='javascript:void(0);' data-producto='"+data[key].id+"'  class='addCart'><span class='fa fa-shopping-cart'></span>Eliminar del carro</a>");
+
+			addCart.append("<a href='javascript:void(0);' data-producto='"+data[key].id+"'  class='updateCart'><span class='fa fa-refresh'></span>Actualizar cantidad</a>");
+			
+			addCart.append("<a href='javascript:void(0);' data-producto='"+data[key].id+"'  class='delCart'><span class='fa fa-trash-o'></span>Eliminar</a></br>");
+			var span = $("<span style='float:left; margin-left:80px'></span>").append(spin);
+					
+			span.append(data[key].id_producto.unidad_de_compra);
+			addCart.append(span);
+			
+			addCart.append("  Subtotal : " +(data[key].cantidad*data[key].precio_producto) + "€");
+			total = total + data[key].cantidad*data[key].precio_producto;
+
 			row.append(addCart);
 			$(".carro-productos").append(row);
 		}
 
-		$('.addCart').on("click", function(){
 
-	          $.post('{{ url("carro_create") }}',{ idProducto: $(this).data('producto'), cantidad: '100' }, function( data ) {
-	        	  alert( data );
+		 $('.updateCart').on("click", function(){
+		 	var updateCantidad = $(this).siblings("span")[0].childNodes[0].value;
+	          $.post('{{ url("carro_update_cant") }}',{ idProducto: $(this).data('producto'), cantidad : updateCantidad }, function( data ) {
+	        	  $.getJSON("{{ url('carro_listar') }}", poblarCarro);
 	          });
-	    	  
 	      });
 
+		 $('.delCart').on("click", function(){
+	          $.post('{{ url("carro_delete") }}',{ idProducto: $(this).data('producto') }, function( data ) {
+	        	  $.getJSON("{{ url('carro_listar') }}", poblarCarro);
+	          });
+	      });
+
+ 		if(data.length == 0){
+		 		var totalrow = $("<tr></tr>");
+				totalrow.append($("<td colspan='4' style='text-align:center'>Actualmente no tiene productos en el carro </td>"));
+				$(".carro-productos").append(totalrow);
+		 }else{
+		 	var totalrow = $("<tr></tr>");
+			totalrow.append($("<td colspan='4' style='text-align:right'>Total : "+total+"€</td>"));
+			$(".carro-productos").append(totalrow);
+			$("#totalpagar").val("Total a pagar : "+total+"€");
+		 }
     }
 
     function poblarProductos(data){
@@ -99,16 +169,7 @@
 	          });
 	    	  
 	      });
-		/*<tr>
-		<td><img alt="" src="http://dummyimage.com/100x100/000/fff"
-			style="margin-bottom: 0px"></td>
-		<td>Redondo con Especias</td>
-		<td><div class="fa fa-eye"></div>Disponible : 20 Kg <input
-			class="spinner" name="value"></td>
-		<td><a href="#" class="addCart"><span class="fa fa-link"></span>
-				Agregar Al carro</a></td>
-	</tr>
-		*/
+		
         }
 
     
@@ -132,24 +193,19 @@
 			</div>
 			<div class="grid_4 preffix_1">
 				<h2>Datos del Comprador</h2>
-				<form id="form" method="POST" action="mail/MailHandler.php">
-					<label class="name"> <input type="text" name="name" value="Nombre"
-						data-constraints="@Required @JustLetters"
-						id="regula-generated-755479" class="once-verified"></label> <label
+				<form id="form" method="POST" action="{{ path('compra_create') }}">
+					<label class="name"> <input type="text" name="name" value="Nombre" id="nombre" ></label> <label
 						class="name" style="margin-left: 0px"> <input type="text"
-						name="email" value="Telefono" data-constraints="@Required @Email"
-						id="regula-generated-877288">
+						name="telefono" value="Telefono" id="telefono">
 					</label> <label class="name" style="margin-left: 0px"> <input
-						type="text" name="email" value="Total a pagar : 412314 $"
-						data-constraints="@Required @Email" id="regula-generated-877288">
-					</label> <label class="message"> <textarea name="message"
-							data-constraints="@Required @Length(min=20,max=999999)"
-							id="regula-generated-294428" class="" style="height: 150px">Direccion de entrega</textarea></label>
+						type="text" name="total" id="totalpagar" value="Total a pagar : ... €" disabled="disabled">
+					</label> <label class="message"> <textarea name="direccion" id="direccion"
+							 style="height: 150px">Direccion de entrega</textarea></label>
 					<div class="clear"></div>
 					<p>Este es un servicio de solicitudes de envio a domicilio, una vez realizada la solicitud se llamara al destino para confirmar el pedido y realizar la entrega, NO SE HARA NINGUN TIPO DE COBRO POR ESTA VIA.
 					<div class="btns">
-						<a href="#" data-type="reset" class="btn">Cancelar</a>
-						<a href="#" data-type="reset" class="btn">Enviar solicitud</a>
+						<a href="#" data-type="reset" class="btn cancel">Cancelar</a>
+						<a href="#" data-type="reset" class="btn enviar">Enviar solicitud</a>
 					</div>
 				</form>
 			</div>

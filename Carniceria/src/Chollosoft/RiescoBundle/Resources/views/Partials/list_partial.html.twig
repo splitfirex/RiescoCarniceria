@@ -20,9 +20,9 @@
 	</tr>
 	</thead>
 	<tbody>
-	 <tr>
+	
     	 {% for productoCarro in object.carros %}
-    	
+    	 <tr>
     	 <td>
         {{ productoCarro.idProducto.nombre  }}
         </td>
@@ -32,8 +32,9 @@
         <td>
         {{ productoCarro.cantidad }} {{ productoCarro.idProducto.unidadDeCompra }}
         </td>
+         </tr>
     	{% endfor %}
-    </tr>
+   
     </tbody>
 </table>
     </div>

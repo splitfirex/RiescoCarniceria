@@ -45,21 +45,7 @@
 		}
 	</style>
 	<script type="text/javascript">
-		$(function() {
-			var offset = $("#shopping_cart_button").offset();
-			var topPadding = 200;
-			$(window).scroll(function() {
-				if ($(window).scrollTop() > offset.top) {
-					$("#shopping_cart_button").stop().animate({
-						marginTop: $(window).scrollTop() - offset.top + topPadding
-					});
-				} else {
-					$("#shopping_cart_button").stop().animate({
-						marginTop: 60
-					});
-				};
-			});
-		});
+		
 	</script>
 <!--[if lt IE 9]>
  <div style=' clear: both; text-align:center; position: relative;'>

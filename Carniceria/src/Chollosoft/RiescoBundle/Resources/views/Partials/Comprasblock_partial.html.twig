@@ -14,9 +14,20 @@
 			{% for compra in compras %}
 
 			<tr>
-				<td><a href="{{ path('compra_admin_edit',{'id': compra.usuarioSession }) }}">{{ compra.usuarioSession }}</a></td>
+				<td><a href="{{ path('compra_admin_show',{'id': compra.usuarioSession }) }}">{{ compra.usuarioSession }}</a></td>
 				<td class="number">EUR {{ compra.total }}</td>
-				<td><span class="label label-success">{{ compra.estado }}</span></td>
+				<td>
+					{% if compra.estado == "PorRevisar" %}
+					    <span class="label label-primary">Por Revisar</span>
+					{% elseif compra.estado == "Cancelado" %}
+					    <span class="label label-danger">Cancelado</span>
+					{% elseif compra.estado == "Entregado" %}
+					   <span class="label label-success">Entregado</span>
+					{% elseif compra.estado == "Revisado" %}
+					<span class="label label-info">Revisado</span>
+
+					{% endif %}
+				</td>
 				<td>{{ compra.fechaCompra|date('Y-m-d H:i:s') }}</td>
 			</tr>
 			{% endfor %}

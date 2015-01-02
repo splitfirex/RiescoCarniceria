@@ -44,7 +44,7 @@ class ComprasService extends BaseBlockService
     // merge settings
         $settings = array_merge($this->getDefaultSettings(), $blockContext->getSettings());
         
-        $entities = $this->em->getRepository('CarniceriaBundle:Compra')->findAll();
+        $entities = $this->em->getRepository('CarniceriaBundle:Compra')->findBy(array(), array('fechaCompra'=>'desc'),20);
 
         return $this->renderResponse('CarniceriaBundle:Partials:Comprasblock_partial.html.twig', array(
             'block'     => $blockContext->getBlock(),

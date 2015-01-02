@@ -2,11 +2,45 @@
 %}
 <script type="text/javascript">
     $(function(){
+
+
+    	$(function() {
+			var offset = $("#shopping_cart_button").offset();
+			var topPadding = 200;
+			$(window).scroll(function() {
+				if ($(window).scrollTop() > offset.top) {
+					$("#shopping_cart_button").stop().animate({
+						marginTop: $(window).scrollTop() - offset.top + topPadding
+					});
+				} else {
+					$("#shopping_cart_button").stop().animate({
+						marginTop: 60
+					});
+				};
+			});
+		});
+
+    	if(window.location.pathname.split("/")[window.location.pathname.split("/").length-1]==="_shoppingCart"){
+    		$("#shopping_cart_button").data("estado","carro");
+    		 $(".category").toggle( "slide", {}, 200 ).promise().done(function(){
+                $("#shopping_cart").toggle( "slide", {}, 200 );
+                $(".content").switchClass( "", "shopping", 200, "easeInOutQuad" );
+                $("#shopping_cart_button").css("background-image","url('{{ asset('bundles/carniceria/images/cart-inverted.png') }}')");
+            });
+    	}else if(window.location.pathname.split("/")[window.location.pathname.split("/").length-1]!=""){
+
+    		var idval = $("[data-categorianame='"+window.location.pathname.split("/")[window.location.pathname.split("/").length-1]+"']").data("categoria");
+    	
+    		$.getJSON("{{ url('categoria_listar') }}",{ idCategoria: idval }, poblarProductos);
+    	}else{
+    		$.getJSON("{{ url('categoria_listar') }}",{ idCategoria: '0' }, poblarProductos);
+    	}
+
       $("#shopping_cart_button").on("click",function(){
 
         if($(this).data("estado")==="productos"){
             $(this).data("estado","carro");
-            $("#category").toggle( "slide", {}, 200 ).promise().done(function(){
+            $(".category").toggle( "slide", {}, 200 ).promise().done(function(){
                 $("#shopping_cart").toggle( "slide", {}, 200 );
                 $(".content").switchClass( "", "shopping", 200, "easeInOutQuad" );
                 $("#shopping_cart_button").css("background-image","url('{{ asset('bundles/carniceria/images/cart-inverted.png') }}')");
@@ -14,7 +48,7 @@
         }else{
             $(this).data("estado","productos");
              $("#shopping_cart").toggle( "slide", {}, 200 ).promise().done(function(){
-                $("#category").toggle( "slide", {}, 300);
+                $(".category").toggle( "slide", {}, 300);
                 $(".content").switchClass( "shopping", "", 200, "easeInOutQuad" );
                 $("#shopping_cart_button").css("background-image","url('{{ asset('bundles/carniceria/images/cart.png') }}')");
             });
@@ -34,39 +68,66 @@
 			
           });
       
-      $.getJSON("{{ url('categoria_listar') }}",{ idCategoria: '0' }, poblarProductos);
+
       $.getJSON("{{ url('carro_listar') }}", poblarCarro);
       
       });
 
 
     function poblarCarro(data){
+    	var total = 0;
+
 		$(".carro-productos").html("");
 
 		for (key in data) {
 			var row = $("<tr></tr>");
 
 			var src = "{{  asset("uploads/") }}"+data[key].id_producto.filename;
-			row.append($("<td></td>").html("<img src=\""+src+"\" style='margin-bottom: 0px' width='40px' height='40px'>"));
+			row.append($("<td></td>").html("<img src=\""+src+"\" style='margin-bottom: 0px' width='80px' height='80px'>"));
 			row.append($("<td></td>").html("<strong>"+data[key].id_producto.nombre+"</strong>"));
-			row.append($("<td></td>").html('Disponible : '+data[key].id_producto.stock+ ''+data[key].id_producto.unidad_de_compra +"    <strong> Precio por "+ data[key].id_producto.unidad_de_compra +": \u20AC "+data[key].precio_producto +'</strong>'));
+			row.append($("<td></td>").html('Disponible : '+data[key].id_producto.stock+ ''+data[key].id_producto.unidad_de_compra +" </br>   <strong> Precio por "+ data[key].id_producto.unidad_de_compra +": \u20AC "+data[key].precio_producto +'</strong>'));
 
-			var spin = $( "<input class='spinner' value='"+data[key].cantidad+"' style='width:25px; margin-right:0px;  border-width:1px'>" );
+			var spin = $( "<input class='spinner' value='"+data[key].cantidad+"' style='width:50px; margin-right:0px;  border-width:1px; text-align:right;'>" );
 			var addCart = $("<td></td>");
-			addCart.append(spin);
-			addCart.append(data[key].id_producto.unidad_de_compra);
-			addCart.append("<a href='javascript:void(0);' data-producto='"+data[key].id+"'  class='addCart'><span class='fa fa-shopping-cart'></span>Eliminar del carro</a>");
+
+			addCart.append("<a href='javascript:void(0);' data-producto='"+data[key].id+"'  class='updateCart'><span class='fa fa-refresh'></span>Actualizar cantidad</a>");
+			
+			addCart.append("<a href='javascript:void(0);' data-producto='"+data[key].id+"'  class='delCart'><span class='fa fa-trash-o'></span></a></br>");
+			var span = $("<span style='float:left; margin-left:80px'></span>").append(spin);
+					
+			span.append(data[key].id_producto.unidad_de_compra);
+			addCart.append(span);
+			
+			addCart.append("  Subtotal : " +(data[key].cantidad*data[key].precio_producto) + "€");
+			total = total + data[key].cantidad*data[key].precio_producto;
+
 			row.append(addCart);
 			$(".carro-productos").append(row);
 		}
 
-		$('.addCart').on("click", function(){
 
-	          $.post('{{ url("carro_create") }}',{ idProducto: $(this).data('producto'), cantidad: '100' }, function( data ) {
-	        	  alert( data );
+		 $('.updateCart').on("click", function(){
+		 	var updateCantidad = $(this).siblings("span")[0].childNodes[0].value;
+	          $.post('{{ url("carro_update_cant") }}',{ idProducto: $(this).data('producto'), cantidad : updateCantidad }, function( data ) {
+	        	  $.getJSON("{{ url('carro_listar') }}", poblarCarro);
 	          });
-	    	  
 	      });
+
+		 $('.delCart').on("click", function(){
+	          $.post('{{ url("carro_delete") }}',{ idProducto: $(this).data('producto') }, function( data ) {
+	        	  $.getJSON("{{ url('carro_listar') }}", poblarCarro);
+	          });
+	      });
+
+		 if(data.length == 0){
+		 			var totalrow = $("<tr></tr>");
+				totalrow.append($("<td colspan='4' style='text-align:center'>Actualmente no tiene productos en el carro </td>"));
+				$(".carro-productos").append(totalrow);
+		 }else{
+		 	var totalrow = $("<tr></tr>");
+			totalrow.append($("<td colspan='4' style='text-align:right'>Total : "+total+"€</td>"));
+			$(".carro-productos").append(totalrow);
+		 }
 
     }
 
@@ -91,15 +152,24 @@
 			$(".categoria-productos").append(row);
 		}
 
+
+
+
 		$('.addCart').on("click", function(){
 			  var cantidadSeleccionada = $(this).prev('input[name="cantidad"]').val();	
 	          $.post('{{ url("carro_create") }}',{ idProducto: $(this).data('producto'), cantidad: cantidadSeleccionada }, function( data ) {
-	        	  alert( data );
 	        	  $.getJSON("{{ url('carro_listar') }}", poblarCarro);
 	          });
 
 	    	  
 	      });
+
+
+		 if(data.productos.length == 0){
+		 			var totalrow = $("<tr></tr>");
+				totalrow.append($("<td colspan='4' style='text-align:center'>Actualmente esta categoria no posee productos </td>"));
+				$(".categoria-productos").append(totalrow);
+		 }
 	
         }
 
@@ -114,18 +184,18 @@
 		<div class="row">
 
 
-			<div class="grid_4 preffix_1" style="width: 200px">
+			<div class="grid_4 preffix_1 category" style="width: 200px" >
 				<h2>Categorias</h2>
 				<ul class="list">
 					{% for categoria in categorias %}
 					<li><a href="javascript:void(0);"
-						data-categoria="{{ categoria.id }}" class="categoria-filter">{{
+						data-categoria="{{ categoria.id }}" data-categorianame="{{ categoria.nombre }}" class="categoria-filter">{{
 							categoria.nombre }}</a></li> {% endfor %}
 					<li><a data-categoria="0" class="categoria-filter"
 						href="javascript:void(0);"><b>TODAS</b></a></li>
 				</ul>
 			</div>
-			<div class="grid_7" id="category">
+			<div class="grid_7 category" >
 				<div class="blog">
 					<h1 class="blog_title categoria-titulo"></h1>
 					<p class="categoria-descripcion"></p>
@@ -135,7 +205,7 @@
 					</table>
 				</div>
 			</div>
-			<div class="grid_7" style="background-color: #969696; display: none"
+			<div class="grid_10" style="background-color: #969696; display: none"
 				id="shopping_cart">
 				<div class="blog">
 					<div class="blog_title">

@@ -282,7 +282,16 @@ class Compra
      */
     public function updatedTimestamps()
     {
-    
+        
+        $totalParcial = 0;
+        foreach ($this->getCarros() as $valor){
+
+            $totalParcial = $totalParcial + $valor->getPrecioProducto() * $valor->getCantidad();
+
+        }
+
+        $this->setTotal($totalParcial);
+
         if($this->getFechaCompra() == null)
         {
             $this->setFechaCompra(new \DateTime(date('Y-m-d H:i:s')));
