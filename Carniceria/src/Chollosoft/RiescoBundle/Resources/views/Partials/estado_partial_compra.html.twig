@@ -1,0 +1,16 @@
+
+<th> Estado</th>
+    <td>
+    	
+{% if object.estado == "PorRevisar" %}
+    <span class="label label-primary">Por Revisar</span>
+{% elseif object.estado == "Cancelado" %}
+    <span class="label label-danger">Cancelado</span>
+{% elseif object.estado == "Entregado" %}
+   <span class="label label-success">Entregado</span>
+{% elseif object.estado == "Revisado" %}
+<span class="label label-info">Revisado</span>
+
+{% endif %}
+
+    </td>

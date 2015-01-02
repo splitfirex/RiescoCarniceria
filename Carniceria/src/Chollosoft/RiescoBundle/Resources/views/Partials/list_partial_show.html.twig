@@ -1,0 +1,59 @@
+{% extends 'SonataAdminBundle:CRUD:base_list_field.html.twig' %}
+
+{% block field %}
+    <div>
+    	
+<table class="table table-bordered">
+	<thead>
+	<tr>
+		<td>
+			Producto
+		</td>
+
+        <td>
+            Unidad de compra
+        </td>
+
+		<td>
+			Precio por unidad de compra
+		</td>
+        <td>
+            Disponible
+        </td>
+		<td>
+			Cantidad
+		</td>
+        <td>
+            Subtotal
+        </td>
+	</tr>
+	</thead>
+	<tbody>
+	
+    	 {% for productoCarro in object.carros %}
+    	 <tr>
+    	 <td>
+        {{ productoCarro.idProducto.nombre  }}
+        </td>
+         <td>
+        {{ productoCarro.idProducto.unidadDeCompra }}
+        </td>
+        <td>
+        {{ productoCarro.precioProducto  }}€
+        </td>
+        <td>
+        {{ productoCarro.idProducto.stock }} {{ productoCarro.idProducto.unidadDeCompra }}
+        </td>
+          <td>
+        {{ productoCarro.cantidad  }} {{ productoCarro.idProducto.unidadDeCompra }}
+        </td>
+          <td>
+        {{ productoCarro.cantidad * productoCarro.precioProducto }} €
+        </td>
+         </tr>
+    	{% endfor %}
+   
+    </tbody>
+</table>
+    </div>
+{% endblock %}
