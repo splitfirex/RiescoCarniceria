@@ -2,19 +2,24 @@
 <th> Cambiar estado</th>
 <td>
 	<span class="btn-group">
-		<a href="{{ admin.generateObjectUrl('list', object) }}" onclick="return start_field_dialog_form_list_s54a69e5e9797d_customer(this);" class="btn btn-info btn-sm btn-outline sonata-ba-action" title="List">
+	{% if object.estado == "Cancelado" %}
+		La orden se encuentra en estado CANCELADO, no es posible cambiar el estado.
+	{% else %}
+	<a href="{{ admin.generateObjectUrl('revisado', object) }}" onclick="return start_field_dialog_form_list_s54a69e5e9797d_customer(this);" class="btn btn-info btn-sm btn-outline sonata-ba-action" title="List">
 			<i class="fa fa-check-circle"></i>
 			Revisado
 		</a>
 
-		<a href="{{ admin.generateObjectUrl('list', object) }}" onclick="return start_field_dialog_form_add_s54a69e5e9797d_customer(this);" class="btn btn-success btn-sm btn-outline sonata-ba-action" title="Add new">
+		<a href="{{ admin.generateObjectUrl('entregado', object) }}" onclick="return start_field_dialog_form_add_s54a69e5e9797d_customer(this);" class="btn btn-success btn-sm btn-outline sonata-ba-action" title="Add new">
 			<i class="fa fa-shopping-cart"></i>
 			Entregado
 		</a>
-		<a href="{{ admin.generateObjectUrl('list', object) }}" class="btn btn-danger btn-sm btn-outline sonata-ba-action" title="Add new">
+		<a href="{{ admin.generateObjectUrl('cancelado', object) }}" class="btn btn-danger btn-sm btn-outline sonata-ba-action" title="Add new">
 			<i class="fa fa-minus-circle"></i>
 			Cancelado
 		</a>
+	{% endif %}
+		
 
 	</span>
 

@@ -38,7 +38,7 @@
 				label="Compras" />
 			<argument />
 			<argument>Chollosoft\RiescoBundle\Entity\Compra</argument>
-			<argument />
+			<argument>CarniceriaBundle:CRUD</argument>
 			<call method="setTranslationDomain">
 				<argument>CarniceriaBundle</argument>
 			</call>

@@ -114,6 +114,19 @@ class CompraController extends Controller
         );
     }
 
+    
+    public function cloneAction(){
+    	$id = $this->get('request')->get($this->admin->getIdParameter());
+    	
+    	$object = $this->admin->getObject($id);
+    	
+    	if (!$object) {
+    		throw new NotFoundHttpException(sprintf('unable to find the object with id : %s', $id));
+    	}
+    	
+    	return new RedirectResponse($this->admin->generateUrl('list'));
+    }
+    
     /**
      * Finds and displays a Compra entity.
      *

@@ -3,6 +3,9 @@
 namespace Chollosoft\RiescoBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Persistence\Mapping\ClassMetadata;
+use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Common\Persistence\ObjectManagerAware;
 
 /**
  * Compra
@@ -11,9 +14,14 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\HasLifecycleCallbacks
  * @ORM\Entity
  */
-class Compra
+class Compra implements ObjectManagerAware
 {
-
+	private $em;
+	public function injectObjectManager(ObjectManager $objectManager, ClassMetadata $classMetadata)
+	{
+		$this->em = $objectManager;
+	}
+	
     /**
      * @var \DateTime
      * @ORM\Column(name="fechaCompra", type="datetime", nullable=false)
@@ -282,7 +290,8 @@ class Compra
      */
     public function updatedTimestamps()
     {
-        
+
+
         $totalParcial = 0;
         foreach ($this->getCarros() as $valor){
 

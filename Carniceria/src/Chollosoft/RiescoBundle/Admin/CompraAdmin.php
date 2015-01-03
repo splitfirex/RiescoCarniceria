@@ -9,6 +9,7 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
+use Sonata\AdminBundle\Route\RouteCollection;
 
 class CompraAdmin extends Admin
 {
@@ -16,6 +17,13 @@ class CompraAdmin extends Admin
 	public $supportsPreviewMode = true;
 
 
+	protected function configureRoutes(RouteCollection $collection)
+	{
+		$collection->add('revisado', $this->getRouterIdParameter().'/revisado');
+		$collection->add('cancelado', $this->getRouterIdParameter().'/cancelado');
+		$collection->add('entregado', $this->getRouterIdParameter().'/entregado');
+	}
+	
 	public function getTemplate($name)
 	{
 		switch ($name) {

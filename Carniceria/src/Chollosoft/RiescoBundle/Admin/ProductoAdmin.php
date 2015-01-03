@@ -11,6 +11,7 @@ use Sonata\AdminBundle\Form\FormMapper;
 
 class ProductoAdmin extends Admin
 {
+	protected $baseRouteName = 'producto_admin';
 	// Fields to be shown on create/edit forms
 	protected function configureFormFields(FormMapper $formMapper)
 	{

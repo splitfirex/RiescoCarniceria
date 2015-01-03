@@ -11,18 +11,15 @@
 	<div class="panel-body">
 
 		<table class="sonata-order-block-order-container table table-condensed">
-			<tbody><tr>
-				<td><a href="http://demo.sonata-project.org/admin/sonata/order/order/201/edit">Pollo</a></td>
-				<td class="number">Stock Actual : 11</td>
-				<td><span class="label label-danger">Sotck Bajo</span></td>
-				<td class="number">Stock Minimo : 11</td>
-			</tr>
+			<tbody>
+			{% for producto in productos %}
 			<tr>
-				<td><a href="http://demo.sonata-project.org/admin/sonata/order/order/201/edit">Carne de Cerdo</a></td>
-				<td class="number">Stock Actual : 12</td>
-				<td><span class="label label-danger">Sotck Bajo</span></td>
-				<td class="number">Stock Minimo : 20</td>
+				<td><a href="{{ path('producto_admin_edit',{'id': producto.id }) }}">{{ producto.nombre }}</a></td>
+				<td class="number">Stock Actual :{{ producto.stock }}</td>
+				<td><span class="label label-danger">Stock Bajo</span></td>
+				<td class="number">Stock Minimo : {{ producto.alarmaStock }}</td>
 			</tr>
+			{% endfor %}
 		</tbody></table>
 	</div>
 </div>

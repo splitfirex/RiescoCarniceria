@@ -13,6 +13,14 @@ use Sonata\BlockBundle\Block\BaseBlockService;
 
 class AlertasService extends BaseBlockService
 {
+	private $em;
+	
+	public function __construct($name, $templating, \Doctrine\ORM\EntityManager $entityManager)
+	{
+		parent::__construct($name, $templating);
+		$this->em = $entityManager;
+	}
+	
     public function getName()
     {
         return 'My Newsletter';
@@ -36,9 +44,20 @@ class AlertasService extends BaseBlockService
     // merge settings
         $settings = array_merge($this->getDefaultSettings(), $blockContext->getSettings());
 
+   
+        $repository = $this->em
+        ->getRepository('CarniceriaBundle:Producto');
+        
+        $query = $repository->createQueryBuilder('p')
+        ->where('p.alarmaStock > p.stock')
+        ->getQuery();
+        
+        $products = $query->getResult();
+        
         return $this->renderResponse('CarniceriaBundle:Partials:Alertasblock_partial.html.twig', array(
             'block'     => $blockContext->getBlock(),
-            'settings'  => $settings
+            'settings'  => $settings,
+        	'productos'  => $products
             ), $response);
     }
 }
