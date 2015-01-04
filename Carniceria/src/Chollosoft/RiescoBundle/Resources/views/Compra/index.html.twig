@@ -27,7 +27,37 @@
      }) 
 
      $(".enviar").on("click", function(){
-     	$("#form").submit();
+
+ 		if($("#nombre").val()==="Nombre"){
+ 			message("Por favor ingrese su nombre en el campo 'Nombre' ");
+ 	 		return false;
+ 	 	}
+
+ 		if($("#telefono").val()==="Telefono"){
+ 			message("Por favor ingrese su telefono en el campo 'Telefono' ");
+ 	 		return false;
+ 	 	}
+
+ 		if($("#direccion").val()==="Direccion de entrega"){
+ 			message("Por favor ingrese su direccion de destino en el campo 'Direccion de entrega' ");
+ 	 		return false;
+ 	 	}
+
+         
+     	$.post($('#form').attr('action'),$('#form').serialize(),function(data){
+			if(data == "error"){
+			message("No se pudo completar la orden, intente mas tarde");
+			
+			}else{
+				$('.prodbtns').hide();
+				$('.btns').hide();
+				$("#flash-message-div").stop();
+				$("#flash-message").html("Se completo con exito la solicitud. Su identificador de compra es: <br><strong>"+data+"</strong>");
+				$("#flash-message-div").show();
+				$("input").attr("disabled","disabled");
+			}
+        });
+     	
      }) 
 
       $("#nombre")
@@ -100,9 +130,9 @@
 			var spin = $( "<input class='spinner' value='"+data[key].cantidad+"' style='width:50px; margin-right:0px;  border-width:1px; text-align:right;'>" );
 			var addCart = $("<td></td>");
 
-			addCart.append("<a href='javascript:void(0);' data-producto='"+data[key].id+"'  class='updateCart'><span class='fa fa-refresh'></span>Actualizar cantidad</a>");
+			addCart.append("<a href='javascript:void(0);' data-producto='"+data[key].id+"'  class='updateCart prodbtns'><span class='fa fa-refresh'></span>Actualizar</a>");
 			
-			addCart.append("<a href='javascript:void(0);' data-producto='"+data[key].id+"'  class='delCart'><span class='fa fa-trash-o'></span>Eliminar</a></br>");
+			addCart.append("<a href='javascript:void(0);' data-producto='"+data[key].id+"'  class='delCart prodbtns'><span class='fa fa-trash-o'></span>Eliminar</a></br>");
 			var span = $("<span style='float:left; margin-left:80px'></span>").append(spin);
 					
 			span.append(data[key].id_producto.unidad_de_compra);
@@ -120,12 +150,14 @@
 		 	var updateCantidad = $(this).siblings("span")[0].childNodes[0].value;
 	          $.post('{{ url("carro_update_cant") }}',{ idProducto: $(this).data('producto'), cantidad : updateCantidad }, function( data ) {
 	        	  $.getJSON("{{ url('carro_listar') }}", poblarCarro);
+	        	  message("Se ha actualizado con exito la cantidad solicitada del producto");
 	          });
 	      });
 
 		 $('.delCart').on("click", function(){
 	          $.post('{{ url("carro_delete") }}',{ idProducto: $(this).data('producto') }, function( data ) {
 	        	  $.getJSON("{{ url('carro_listar') }}", poblarCarro);
+	        	  message("Se ha eliminado con exito el producto");
 	          });
 	      });
 
@@ -133,44 +165,17 @@
 		 		var totalrow = $("<tr></tr>");
 				totalrow.append($("<td colspan='4' style='text-align:center'>Actualmente no tiene productos en el carro </td>"));
 				$(".carro-productos").append(totalrow);
+				$("#totalpagar").val("Total a pagar : ... €");
+				$(".btns").hide();
 		 }else{
 		 	var totalrow = $("<tr></tr>");
 			totalrow.append($("<td colspan='4' style='text-align:right'>Total : "+total+"€</td>"));
 			$(".carro-productos").append(totalrow);
 			$("#totalpagar").val("Total a pagar : "+total+"€");
+			$(".btns").show();
 		 }
     }
 
-    function poblarProductos(data){
-		$(".categoria-titulo").html("Categoria: "+data.nombre+" > Productos");
-		$(".categoria-descripcion").html(data.descripcion);
-		$(".categoria-productos").html("");
-	
-		for (key in data.productos) {
-			var row = $("<tr></tr>");
-
-			var src = "{{  asset("uploads/") }}"+data.productos[key].filename;
-			row.append($("<td></td>").html("<img src=\""+src+"\" style='margin-bottom: 0px' width='40px' height='40px'>"));
-			row.append($("<td></td>").html("<strong>"+data.productos[key].nombre+"</strong>"));
-			row.append($("<td></td>").html('Disponible : '+data.productos[key].stock+ ''+data.productos[key].unidad_de_compra +"    <strong> Precio : \u20AC "+data.productos[key].precio +'</strong>'));
-
-			var spin = $( "<input class='spinner' name='value' style='width:40px'>" ).spinner();
-			var addCart = $("<td></td>");
-			addCart.append(spin);
-			addCart.append("<a href='javascript:void(0);' data-producto='"+data.productos[key].id+"'  class='addCart'><span class='fa fa-shopping-cart'></span>Agregar Al carro</a>");
-			row.append(addCart);
-			$(".categoria-productos").append(row);
-		}
-
-		$('.addCart').on("click", function(){
-
-	          $.post('{{ url("carro_create") }}',{ idProducto: $(this).data('producto'), cantidad: '100' }, function( data ) {
-	        	  alert( data );
-	          });
-	    	  
-	      });
-		
-        }
 
     
     </script>
@@ -183,13 +188,19 @@
 
 				<h2>Productos del carro</h2>
 				<div class="blog">
-				<p>Alerta! Los productos en este carro de compra podrian no estar disponibles al momento de realizar el pedido de envio.</p>
+					<div id="flash-message-div" class="ui-widget" style="display:none">
+						<div class="ui-state-highlight ui-corner-all" style="padding: 0 .7em;">
+							<p id="flash-message" style="margin-bottom: 10px; margin-top:10px">
+							</p>
+						</div>
+					</div>
 					<table>
 						<tbody class="carro-productos">
 							
 						</tbody>
 					</table>
 				</div>
+				<p>INFORMACION: Los productos en este carro de compra podrian no estar disponibles al momento de realizar el pedido de envio.</p>
 			</div>
 			<div class="grid_4 preffix_1">
 				<h2>Datos del Comprador</h2>

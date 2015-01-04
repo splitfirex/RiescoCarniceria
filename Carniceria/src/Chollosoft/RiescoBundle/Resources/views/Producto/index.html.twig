@@ -2,9 +2,7 @@
 %}
 <script type="text/javascript">
     $(function(){
-
-
-    	$(function() {
+    	
 			var offset = $("#shopping_cart_button").offset();
 			var topPadding = 200;
 			$(window).scroll(function() {
@@ -18,7 +16,7 @@
 					});
 				};
 			});
-		});
+		
 
     	if(window.location.pathname.split("/")[window.location.pathname.split("/").length-1]==="_shoppingCart"){
     		$("#shopping_cart_button").data("estado","carro");
@@ -87,12 +85,12 @@
 			row.append($("<td></td>").html("<strong>"+data[key].id_producto.nombre+"</strong>"));
 			row.append($("<td></td>").html('Disponible : '+data[key].id_producto.stock+ ''+data[key].id_producto.unidad_de_compra +" </br>   <strong> Precio por "+ data[key].id_producto.unidad_de_compra +": \u20AC "+data[key].precio_producto +'</strong>'));
 
-			var spin = $( "<input class='spinner' value='"+data[key].cantidad+"' style='width:50px; margin-right:0px;  border-width:1px; text-align:right;'>" );
+			var spin = $( "<input class='spinner' data-disponible="+data[key].id_producto.stock+" value='"+data[key].cantidad+"' style='width:50px; margin-right:0px;  border-width:1px; text-align:right;'>" );
 			var addCart = $("<td></td>");
 
-			addCart.append("<a href='javascript:void(0);' data-producto='"+data[key].id+"'  class='updateCart'><span class='fa fa-refresh'></span>Actualizar cantidad</a>");
+			addCart.append("<a href='javascript:void(0);' data-producto='"+data[key].id+"'  class='updateCart'><span class='fa fa-refresh'></span>Actualizar</a>");
 			
-			addCart.append("<a href='javascript:void(0);' data-producto='"+data[key].id+"'  class='delCart'><span class='fa fa-trash-o'></span></a></br>");
+			addCart.append("<a href='javascript:void(0);' data-producto='"+data[key].id+"'  class='delCart'><span class='fa fa-trash-o'></span>Eliminar</a></br>");
 			var span = $("<span style='float:left; margin-left:80px'></span>").append(spin);
 					
 			span.append(data[key].id_producto.unidad_de_compra);
@@ -107,15 +105,25 @@
 
 
 		 $('.updateCart').on("click", function(){
-		 	var updateCantidad = $(this).siblings("span")[0].childNodes[0].value;
+		 	var updateCantidad = $($(this).siblings("span").children()[0]).val();
+
+
+		  if($($(this).siblings("span").children()[0]).data("disponible") < updateCantidad || updateCantidad == "" || updateCantidad < 1){
+				 message("La cantidad ingresada no es valida, supera la cantidad disponible o ingreso una cantidad inferior a 1");
+				 return false;
+		  }
+
+		 	
 	          $.post('{{ url("carro_update_cant") }}',{ idProducto: $(this).data('producto'), cantidad : updateCantidad }, function( data ) {
 	        	  $.getJSON("{{ url('carro_listar') }}", poblarCarro);
+	        	  message("Se ha actualizado con exito la cantidad solicitada del producto");
 	          });
 	      });
 
 		 $('.delCart').on("click", function(){
 	          $.post('{{ url("carro_delete") }}',{ idProducto: $(this).data('producto') }, function( data ) {
 	        	  $.getJSON("{{ url('carro_listar') }}", poblarCarro);
+	        	  message("Se ha eliminado con exito el producto");
 	          });
 	      });
 
@@ -140,25 +148,39 @@
 			var row = $("<tr></tr>");
 
 			var src = "{{  asset("uploads/") }}"+data.productos[key].filename;
-			row.append($("<td></td>").html("<img src=\""+src+"\" style='margin-bottom: 0px' width='40px' height='40px'>"));
+			row.append($("<td></td>").html("<img src=\""+src+"\" style='margin-bottom: 0px' width='80px' height='80px'>"));
 			row.append($("<td></td>").html("<strong>"+data.productos[key].nombre+"</strong>"));
-			row.append($("<td></td>").html('Disponible : '+data.productos[key].stock+ ''+data.productos[key].unidad_de_compra +"    <strong> Precio : \u20AC "+data.productos[key].precio +'</strong>'));
-
-			var spin = $( "<input class='spinner' name='cantidad'  style='width:25px; margin-right:0px;  border-width:1px'>" );
+			var spin = $( "<input class='spinner' data-disponible="+data.productos[key].stock+" name='cantidad'  style='width:50px; margin-right:0px;  border-width:1px'>" );
 			var addCart = $("<td></td>");
-			addCart.append(spin);
-			addCart.append("<a href='javascript:void(0);' data-producto='"+data.productos[key].id+"'  class='addCart'><span class='fa fa-shopping-cart'></span>Agregar Al carro</a>");
+
+			if(data.productos[key].stock<=0){
+				row.append($("<td style='text-align:center;'></td>").html('<strong> No Disponible </strong>'));
+			}else{	
+				row.append($("<td></td>").html('Disponible : '+data.productos[key].stock+ ' '+data.productos[key].unidad_de_compra +"   <br> <strong> Precio : \u20AC "+data.productos[key].precio +'</strong>'));
+				
+				addCart.append("<a href='javascript:void(0);' data-producto='"+data.productos[key].id+"'  class='addCart'><span class='fa fa-shopping-cart'></span>Agregar</a> <br> ");
+				addCart.append(spin);
+				addCart.append(" "+data.productos[key].unidad_de_compra );
+			}
+
 			row.append(addCart);
 			$(".categoria-productos").append(row);
 		}
 
-
-
+		
 
 		$('.addCart').on("click", function(){
-			  var cantidadSeleccionada = $(this).prev('input[name="cantidad"]').val();	
+			  var cantidadSeleccionada = $(this).next().next('input[name="cantidad"]').val();
+			  if($(this).next().next('input[name="cantidad"]').data("disponible") < cantidadSeleccionada || cantidadSeleccionada == "" || cantidadSeleccionada < 1){
+					 message2("La cantidad ingresada no es valida, supera la cantidad disponible o ingreso una cantidad inferior a 1");
+					 return false;
+			  }
+			  	
+			  $(this).next().next('input[name="cantidad"]').val("");	
 	          $.post('{{ url("carro_create") }}',{ idProducto: $(this).data('producto'), cantidad: cantidadSeleccionada }, function( data ) {
 	        	  $.getJSON("{{ url('carro_listar') }}", poblarCarro);
+	        	  mostrarCarro();
+	        	  message("Se ha agregado con exito el producto");
 	          });
 
 	    	  
@@ -173,6 +195,16 @@
 	
         }
 
+    function mostrarCarro(){
+		 $("#shopping_cart_button").data("estado","carro");
+      $(".category").toggle( "slide", {}, 200 ).promise().done(function(){
+          $("#shopping_cart").toggle( "slide", {}, 200 );
+          $(".content").switchClass( "", "shopping", 200, "easeInOutQuad" );
+          $("#shopping_cart_button").css("background-image","url('{{ asset('bundles/carniceria/images/cart-inverted.png') }}')");
+      });
+	}
+        
+
     
     </script>
 {% endblock %} {% block body -%}
@@ -184,21 +216,29 @@
 		<div class="row">
 
 
-			<div class="grid_4 preffix_1 category" style="width: 200px" >
+			<div class="grid_4 preffix_1 category" style="width: 200px">
 				<h2>Categorias</h2>
 				<ul class="list">
 					{% for categoria in categorias %}
 					<li><a href="javascript:void(0);"
-						data-categoria="{{ categoria.id }}" data-categorianame="{{ categoria.nombre }}" class="categoria-filter">{{
-							categoria.nombre }}</a></li> {% endfor %}
+						data-categoria="{{ categoria.id }}"
+						data-categorianame="{{ categoria.nombre }}"
+						class="categoria-filter">{{ categoria.nombre }}</a></li> {% endfor
+					%}
 					<li><a data-categoria="0" class="categoria-filter"
 						href="javascript:void(0);"><b>TODAS</b></a></li>
 				</ul>
 			</div>
-			<div class="grid_7 category" >
+			<div class="grid_7 category">
 				<div class="blog">
 					<h1 class="blog_title categoria-titulo"></h1>
 					<p class="categoria-descripcion"></p>
+					<div id="flash-message2-div" class="ui-widget" style="display:none">
+						<div class="ui-state-highlight ui-corner-all" style="padding: 0 .7em;">
+							<p id="flash-message2" style="margin-bottom: 10px; margin-top:10px; text-align: center;">
+							</p>
+						</div>
+					</div>
 					<table>
 						<tbody class="categoria-productos">
 						</tbody>
@@ -211,13 +251,21 @@
 					<div class="blog_title">
 						<a href="#">Productos del carro</a>
 					</div>
-					<p>Alerta! Los productos en este carro de compra podrian no estar disponibles al momento de realizar el pedido de envio.</p>
+					<div id="flash-message-div" class="ui-widget" style="display:none">
+						<div class="ui-state-highlight ui-corner-all" style="padding: 0 .7em;">
+							<p id="flash-message" style="margin-bottom: 10px; margin-top:10px">
+							</p>
+						</div>
+					</div>
+					
 					<table>
 						<tbody class="carro-productos">
-							
+
 						</tbody>
 					</table>
 				</div>
+				<p>INFORMACION: Los productos en este carro de compra podrian no estar
+						disponibles al momento de realizar el pedido de envio.</p>
 			</div>
 			<div id="shopping_cart_button"
 				style="width:100px; height:100px; margin-top:60px;  float: right;  z-index:999; overflow: auto; display:block; background-image: url('{{ asset('bundles/carniceria/images/cart.png') }}') ; background-size: 100px 100px;  background-repeat: no-repeat; cursor:pointer;"

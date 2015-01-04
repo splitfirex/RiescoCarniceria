@@ -980,3 +980,14 @@ header h1 a img {
         width: auto;
     }
 }
+
+#dvLoading
+{
+   background:#fff url(../images/Preloader_4.gif) no-repeat center center;
+  	position: fixed;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+/*	z-index: 9999;*/
+}

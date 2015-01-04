@@ -90,6 +90,7 @@ class CarroController extends Controller
     		$entity->setIdProducto($producto);
     		$entity->setPrecioProducto($producto->getPrecio());
     		$entity->setCantidad($cantidad);
+   
     		//$serializedEntity = $this->container->get('serializer')->serialize($data, 'json');
     		//return new Response($data["cantidad"]);
     		//$form = $this->createCreateForm($entity);

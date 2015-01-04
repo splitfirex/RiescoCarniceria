@@ -1,50 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Carniceria Riesco</title>
-	<meta charset="utf-8">
-	<meta name = "format-detection" content = "telephone=no" />
-	<link rel="icon" href="images/favicon.ico">
-	<link rel="shortcut icon" href="images/favicon.ico" />
-	<link rel="stylesheet" href="{{ asset('bundles/carniceria/css/stuck.css') }}">
-	<link rel="stylesheet" href="{{ asset('bundles/carniceria/css/style.css') }}">
-	<link rel="stylesheet" href="{{ asset('bundles/carniceria/css/form.css') }}">
-	<link rel="stylesheet" href="{{ asset('bundles/carniceria/css/touchTouch.css') }}">
-	<link rel="stylesheet" href="{{ asset('bundles/carniceria/css/jquery-ui.min.css') }}">
-	<link rel="stylesheet" href="{{ asset('bundles/carniceria/css/jquery-ui.theme.min.css') }}">
-	<link rel="stylesheet" href="{{ asset('bundles/carniceria/css/jquery-ui.structure.min.css') }}">
+<title>Carniceria Riesco</title>
+<meta charset="utf-8">
+<meta name="format-detection" content="telephone=no" />
+<link rel="icon" href="images/favicon.ico">
+<link rel="shortcut icon" href="images/favicon.ico" />
+<link rel="stylesheet"
+	href="{{ asset('bundles/carniceria/css/stuck.css') }}">
+<link rel="stylesheet"
+	href="{{ asset('bundles/carniceria/css/style.css') }}">
+<link rel="stylesheet"
+	href="{{ asset('bundles/carniceria/css/form.css') }}">
+<link rel="stylesheet"
+	href="{{ asset('bundles/carniceria/css/touchTouch.css') }}">
+<link rel="stylesheet"
+	href="{{ asset('bundles/carniceria/css/jquery-ui.min.css') }}">
+<link rel="stylesheet"
+	href="{{ asset('bundles/carniceria/css/jquery-ui.theme.min.css') }}">
+<link rel="stylesheet"
+	href="{{ asset('bundles/carniceria/css/jquery-ui.structure.min.css') }}">
 
-	<script src="{{ asset('bundles/carniceria/js/jquery.js') }}"></script>
-    <script src="{{ asset('bundles/carniceria/js/jquery-ui.min.js') }}"></script>
-	<script src="{{ asset('bundles/carniceria/js/jquery-migrate-1.1.1.js') }}"></script>
-	<script src="{{ asset('bundles/carniceria/js/script.js') }}"></script> 
-	<script src="{{ asset('bundles/carniceria/js/superfish.js') }}"></script>
-	<script src="{{ asset('bundles/carniceria/js/jquery.equalheights.js') }}"></script>
-	<script src="{{ asset('bundles/carniceria/js/jquery.mobilemenu.js') }}"></script>
-	<script src="{{ asset('bundles/carniceria/js/jquery.easing.1.3.js') }}"></script>
-	<script src="{{ asset('bundles/carniceria/js/tmStickUp.js') }}"></script>
-	<script src="{{ asset('bundles/carniceria/js/jquery.ui.totop.js') }}"></script>
-	<script src="{{ asset('bundles/carniceria/js/touchTouch.jquery.js') }}"></script>
+<script src="{{ asset('bundles/carniceria/js/jquery.js') }}"></script>
+<script src="{{ asset('bundles/carniceria/js/jquery-ui.min.js') }}"></script>
+<script
+	src="{{ asset('bundles/carniceria/js/jquery-migrate-1.1.1.js') }}"></script>
+<script src="{{ asset('bundles/carniceria/js/script.js') }}"></script>
+<script src="{{ asset('bundles/carniceria/js/superfish.js') }}"></script>
+<script
+	src="{{ asset('bundles/carniceria/js/jquery.equalheights.js') }}"></script>
+<script src="{{ asset('bundles/carniceria/js/jquery.mobilemenu.js') }}"></script>
+<script src="{{ asset('bundles/carniceria/js/jquery.easing.1.3.js') }}"></script>
+<script src="{{ asset('bundles/carniceria/js/tmStickUp.js') }}"></script>
+<script src="{{ asset('bundles/carniceria/js/jquery.ui.totop.js') }}"></script>
+<script src="{{ asset('bundles/carniceria/js/touchTouch.jquery.js') }}"></script>
 
 
 
 
-	<script>
+<script>
+		var globalDialog;
 		$(document).ready(function(){
 
 			$().UItoTop({ easingType: 'easeOutQuart' });
 			$('#stuck_container').tmStickUp({});
 			$('.gallery .gall_item').touchTouch();
-
 		}); 
-	</script>
-	<style type="text/css">
-		.shopping{
-			background-color: #969696;
-			color:white;
+
+
+		$( document ).ajaxStart(activarDialog);
+
+		$( document ).ajaxStop(desactivarDialog);
+
+
+		function desactivarDialog(){
+			$('#dvLoading').fadeOut("fast");
+		    //globalDialog.dialog( "close" ); 
 		}
-	</style>
-	<script type="text/javascript">
+
+		function activarDialog(){
+			$('#dvLoading').fadeIn( "fast" );
+		}
+
+		function message2(mensage){
+			$("#flash-message2").html(mensage);
+			$("#flash-message2-div").show();
+			$("#flash-message2-div").fadeOut(5000);
+		}
+		
+		function message(mensage){
+			$("#flash-message").html(mensage);
+			$("#flash-message-div").show();
+			$("#flash-message-div").fadeOut(10000);
+		}
+	</script>
+<style type="text/css">
+.shopping {
+	background-color: #969696;
+	color: white;
+}
+</style>
+<script type="text/javascript">
 		
 	</script>
 <!--[if lt IE 9]>
@@ -61,11 +97,13 @@
 </head>
 
 <body>
-	{% include 'CarniceriaBundle::menu.html.twig' %}      
-	{% block menu %}{% endblock %}
-	{% block body %}{% endblock %}
-	{% include 'CarniceriaBundle::footer.html.twig' %} 
+	{% include 'CarniceriaBundle::menu.html.twig' %} {% block menu %}{%
+	endblock %} {% block body %}{% endblock %} 
+	<div id="dvLoading" style="display: none;z-index:700"></div>
+		
+	{% include	'CarniceriaBundle::footer.html.twig' %}
 	{% block javascript %} {% endblock %}
+
 </body>
 </html>
 

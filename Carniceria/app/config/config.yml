@@ -64,7 +64,6 @@ sonata_admin:
                 items:
                     - sonata.admin.producto
                     - sonata.admin.categoria       
-                    - sonata.admin.carro
                     - sonata.admin.compra
 
 sonata_doctrine_orm_admin:

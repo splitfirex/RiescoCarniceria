@@ -75,7 +75,7 @@ class Compra implements ObjectManagerAware
     /**
      * @var decimal
      *
-     * @ORM\Column(name="total", type="decimal", nullable=false)
+     * @ORM\Column(name="total", type="decimal", nullable=false, precision=10, scale=2)
      */
     private $total;
 

@@ -39,7 +39,7 @@ class Carro
     /**
      * @var integer
      * 
-     * @ORM\Column(name="precioProducto", type="decimal", nullable=false)
+     * @ORM\Column(name="precioProducto", type="decimal", nullable=false, precision=10, scale=2)
      */
     private $precioProducto;
 
