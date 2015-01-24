@@ -35,7 +35,7 @@ class Producto
      /**
      * @var string
      *
-     * @ORM\Column(name="unidadDeCompra", type="string", length=255, unique=true)
+     * @ORM\Column(name="unidadDeCompra", type="string", length=255)
      */
     private $unidadDeCompra;
 
